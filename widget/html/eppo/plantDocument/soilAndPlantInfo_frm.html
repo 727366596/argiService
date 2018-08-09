@@ -1,0 +1,272 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>土壤与播种信息</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/iscroll-style_.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+    <style>
+        html, body{
+            width: 100%;height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: #f2f2f2;
+        }
+        body{
+            padding: 0.6rem 0.4rem;
+        }
+        .mainText{
+            width: 6.7rem;
+            padding: 0 0.25rem;
+            background-color: #fff;
+            margin: 0 auto;
+        }
+        .mainText>p{
+            width: 100%;
+            line-height: 0.7rem;
+            /*margin: 0.2rem 0;*/
+            font-size: 0.28rem;
+            color: #333;
+        }
+        .mainChart{
+            width: 100%;
+            padding: 0.6rem 0;
+        }
+        #chartBox{
+            width: 100%;
+            height:100%;
+            height: 6.0rem;
+            /*display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;*/
+        }
+        .emptyBox{
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        .addIcon{
+            width: 1.64rem;
+            height:1.64rem;
+            background: url("../../../image/plantDoc/addInfo.png") no-repeat center center;
+            background-size: 100% 100%;
+            margin:0 auto;
+            margin-bottom: 0.45rem;
+        }
+        .addBtn{
+            height:0.8rem;
+            width: 3.88rem;
+            border-radius: 0.4rem;
+            line-height: 0.8rem;
+            text-align: center;
+            background-color: #77b863;
+            font-size: 0.3rem;
+            color: #fff;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <section class="mainText">
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+    </section>
+    <section class="mainChart">
+        <div id="chartBox">
+            <div class="emptyBox">
+                <span class="addIcon"></span>
+                <span class="addBtn" onclick="soilAndPlantInfoChange();">点击完善土壤信息</span>
+            </div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+<script type="text/javascript" src="../../../script/common/echarts.common.min.js"></script>
+<script type="text/javascript" src="../../../script/common/emptyFrm.js"></script>
+<script type="text/javascript">
+    var cropId = null, id = null, data = null;
+    var plantBaseRole = null, appUserId = null;
+    apiready = function(){
+        api.parseTapmode();
+        //角色
+        plantBaseRole = api.pageParam.plantBaseRole;
+        appUserId = api.pageParam.appUserId;
+
+        cropId = api.pageParam.cropId;
+        dataInit(cropId);//获取数据
+
+
+    };
+
+    //获取数据
+    function dataInit(cropId){
+        pds.ajaxUpload({
+            url: "/soilSeedMessage/selectByCropId",
+            type: "get",
+            data: {
+                cropId : cropId
+            },
+            success: function(e){
+                data = e.data;//alert(JSON.stringify(data))
+                if ((JSON.stringify(data) != "{}" && data != null)) {
+                    //信息Id
+                    id = (data.id == null) ? "" : data.id;
+                    //情报字段
+                    var soilGrain = (data.soilGrainStr == null || data.soilGrainStr == "") ? "" : "当前的土壤类型为："+ data.soilGrainStr +"，";
+                    var soilFertility = (data.soilFertilityStr == null || data.soilFertilityStr == "") ? "" : "土质为："+ data.soilFertilityStr +"；";
+                    $(".mainText p:first").text(soilGrain + soilFertility);
+
+                    var plantPattern = (data.plantPattern == null || data.plantPattern == "") ? "" : "目前采用的种植方式为："+ data.plantPattern +"；";
+                    var depth = (data.depth == null || data.depth == 0) ? "" : "种植深度为："+ data.depth +"cm；";
+                    $(".mainText p:nth-of-type(2)").text(plantPattern + depth);
+
+                    var soilMoistureContent = (data.soilMoistureContent == null || data.soilMoistureContent == "") ? "土壤墒情信息：暂无；" : "土壤墒情信息："+ data.soilMoistureContent +"；";
+                    $(".mainText p:nth-of-type(3)").text(soilMoistureContent);
+
+                    //添加图表下面信息文字
+                    var phStr = (data.phStr == null || data.phStr == "") ? "" : "土壤PH："+ data.phStr +"，";
+                    var organicMatter = (data.organicMatter == null || data.organicMatter == "") ? "" : "土壤有机质含量为："+ data.organicMatter +"g/kg；";
+                    var cec = (data.cec == null || data.cec == 0) ? "" : "土壤CEC值为："+ data.cec +"mol/kg；";
+                    var other = (data.other == null || data.other == "") ? "" : "其他信息："+ data.other +"；";
+                    $(".mainText p:last").text(phStr + organicMatter + cec + other);
+
+                    //是否绘制图表
+                    var availableNitrogen = (data.availableNitrogen == null) ? 0 : data.availableNitrogen;//碱解氮
+                    var availablePhosphorus = (data.availablePhosphorus == null) ? 0 : data.availablePhosphorus;//有效磷
+                    var rapidlyAvailablePotassium = (data.rapidlyAvailablePotassium == null) ? 0 : data.rapidlyAvailablePotassium;//速效钾
+                    if (availableNitrogen == 0 && availablePhosphorus == 0 && rapidlyAvailablePotassium == 0) {
+                        $(".emptyBox").show();
+                    }else{
+                        var typeArr = ["碱解氮","有效磷","速效钾"];
+                        var dataArr = [availableNitrogen, availablePhosphorus, rapidlyAvailablePotassium];
+                        var chartOptionData = (function(){
+                            var chartData = [], legendData = [];
+                            $.each(dataArr, function(index, value){
+                                if (value != 0) {
+                                    chartData.push(dataArr[index]);
+                                    legendData.push(typeArr[index]);
+                                };
+                            });
+                            return {chartData : chartData,legendData : legendData};
+                        })();
+                        //绘制图表
+                        if (chartOptionData.legendData.length == 0 || chartOptionData.chartData.length == 0) {
+                            $(".emptyBox").show();
+                            return;
+                        }else{
+                            chartInit(chartOptionData);
+                        };
+
+
+                    }
+
+                }else{
+                    $(".emptyBox").show();
+                }
+            }
+        })
+    }
+
+    //打开编辑页面
+    function soilAndPlantInfoChange(){
+        if (plantBaseRole != appUserId) {
+            api.toast({
+                msg: '请联系业务负责人！',
+                duration: 2000,
+                location: 'middle'
+            });
+            return;
+        };
+        api.openWin({
+            name: 'soilAndPlantInfo_change_win',
+            url: './soilAndPlantInfo_change_win.html',
+            pageParam: {
+                cropId: cropId,
+                id: id,
+                allArea: api.pageParam.allArea,
+                winName: api.winName,
+                data: data
+            },
+        });
+    }
+
+    //图表实例化
+    function chartInit(chartOptionData){
+
+       var myChart = echarts.init(document.getElementById("chartBox"));
+       var option = {
+           tooltip: {//弹窗
+              trigger: 'axis',
+              triggerOn : 'mousemove|click',//'mousemove|click'
+              backgroundColor : 'rgba(50,50,50,0.7)',
+              textStyle:{
+          　　		align:'left'
+          　　}
+           },
+           grid: {
+               left: '5%',
+               right: '4%',
+               bottom: '5%',
+               top : '15%',
+               containLabel: true,
+               borderColor:'#f09d71'
+           },
+            xAxis: {
+                type: 'category',
+                data: chartOptionData.legendData
+            },
+            yAxis: {
+                type: 'value',
+                name: '单位（mg/kg）'
+            },
+            series: [{
+                data: chartOptionData.chartData,
+                type: 'bar',
+                //配置样式
+                itemStyle: {
+                    //通常情况下：
+                    normal:{
+        　　　　　　　　　//每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
+                        color: function (params){
+                            var colorList = ['#7981cd','#77b863','#797fd3'];
+                            return colorList[params.dataIndex];
+                        }
+                    },
+                    //鼠标悬停时：
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                },
+                //设置柱子的宽度
+                barWidth : 40,
+            }]
+        };
+        myChart.clear();
+        myChart.setOption(option);
+    }
+</script>
+</html>

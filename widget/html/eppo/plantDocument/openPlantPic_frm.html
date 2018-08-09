@@ -1,0 +1,536 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>植保照片</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/iscroll-style_.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+    <style>
+        html, body{
+            width: 100%;height:100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: #fff;
+        }
+        body{
+            padding: 0.2rem;
+        }
+        .wrap{
+            width: 100%;
+        }
+        .addBtn{
+            width: 3.44rem;
+            height:3.24rem;
+            background: url("../../../image/plantDoc/addPic.png") no-repeat center center;
+            background-size: 100% 100%;
+            display: none;
+        }
+
+        #mainList{
+            width: 100%;
+        }
+        #mainList>li{
+            width: 100%;
+            margin-top: 0.2rem;
+        }
+        #mainList>li .picTimeTitle{
+            width: 100%;
+            height: 0.68rem;
+            line-height: 0.68rem;
+            color: #333;
+            font-size: 0.28rem;
+        }
+        #mainList>li .picList{
+            width: 100%;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: flex-start;
+            justify-content: flex-start;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+
+            -webkit-box-lines:multiple;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+        .picBox{
+            /*width: 2.24rem;*/
+            width: 31%;
+            height:1.68rem;
+            margin-right: 3.2%;
+            margin-bottom: 3.2%;
+            position: relative;
+        }
+        .picBox:nth-child(3n){
+            margin-right: 0;
+        }
+        .picBox>img{
+            width: 100%;
+            height:100%;
+        }
+        .picBox>span{
+            display: block;
+            width: 0.6rem;
+            height:0.6rem;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: url("../../../image/plantDoc/delPic.png") no-repeat right top;
+            background-size: 0.4rem 0.4rem;
+            display: none;
+        }
+
+        .picBox>span.delBtnShow{
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="addBtn"></div>
+        <ul id="mainList"></ul>
+        <!-- <div class="more">
+            <i class="pull_icon"></i>
+            <span>上拉加载更多...</span>
+        </div> -->
+    </div>
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+<script type="text/javascript" src="../../../script/common/echarts.common.min.js"></script>
+<script type="text/javascript" src="../../../script/common/emptyFrm.js"></script>
+<script type="text/javascript">
+    var page = 1, pageSize = 10, total = null;var baseId = 1;
+    var cropId = null;
+    var nowDate = null;
+    var imageBrowser = null;//图片预览模块
+    var addr = "";//地址
+    apiready = function(){
+        api.parseTapmode();
+        imageBrowser = api.require('imageBrowser');
+        nowDate = new Date(getNowFormatDate()).getTime();
+
+        //图片回显
+        cropId = api.pageParam.cropId;
+        picInit(cropId);
+
+        var plantBaseRole = api.pageParam.plantBaseRole;
+        var appUserId = api.pageParam.appUserId;
+
+        if (plantBaseRole == appUserId) {
+            $(".addBtn").show().off("click").on("click",getPicture);
+        };
+
+
+    };
+
+    //判断是否有图片
+    function picLength(){
+        if ($("#mainList").html() == "") {
+            api.execScript({//无照片
+                name: 'openPlantPic_win',
+                script: 'picEmpty();'
+            });
+        }else{//有照片
+            api.execScript({
+                name: 'openPlantPic_win',
+                script: 'picOwn();'
+            });
+        }
+    }
+
+    //图片回显
+    var map = {}, dest = [];
+    function picInit(cropId){
+        $('.more span').text('加载中...');
+        $('.pull_icon').addClass('loading');
+        pds.ajaxUpload({
+            url : "/photo/list",
+            type : "get",
+            data : {
+                cropId : cropId,
+                page: page,
+                pageSize: pageSize
+            },
+            success : function(e){//alert(JSON.stringify(e))
+                var listData = e.data.rows;
+                if (listData != [] && listData!= "" && listData != null && listData != undefined) {
+                    $(".more").show();
+                    $('.more span').text('上拉加载更多...');
+                    $('.pull_icon').removeClass('loading');
+                    //数组按年份分类处理
+                    for(var i = 0; i < listData.length; i++){
+                        var ai = listData[i];
+                        if(!map[ai.date]){
+                            dest.push({
+                                date: ai.date,//按年分类
+                                data: [ai]
+                            });
+                            map[ai.date] = ai;
+                        }else{
+                            for(var j = 0; j < dest.length; j++){
+                                var dj = dest[j];
+                                if(dj.date == ai.date){
+                                    dj.data.push(ai);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    console.log("哈哈哈哈哈哈哈************"+JSON.stringify(dest));
+                    setTimeout(function(){
+                        var listBoxStr = "";
+                        $.each(dest, function(l, item){
+                            if (item.data.length > 0) {
+                                var listDataArr = item.data;
+                                var listStr = (function(){
+                                    var listStr_ = "";
+                                    for (var k = 0; k < listDataArr.length; k++) {
+                                        var date = listDataArr[k].date,
+                                            urlsArr = listDataArr[k].urls;
+                                        if (urlsArr != [] && urlsArr != null && urlsArr.length > 0) {
+                                            for (var m = 0; m < urlsArr.length; m++) {
+                                                //console.log("*************"+urlsArr[m].url)
+                                                listStr_ += '<div class="picBox" data-id="'+ urlsArr[m].id +'">'+
+                                                                '<img  onclick="preview(this)" src="'+ urlsArr[m].url +'" alt="">'+
+                                                                '<span class="delBtn"></span>'+
+                                                            '</div>';
+                                            }
+                                        }
+
+
+                                    };
+                                    return listStr_
+                                })();
+                                if (listStr != "") {
+                                    var titleDate = item.date;
+                                    if (new Date(titleDate).getTime() == nowDate) {//代表今天
+                                        titleDate = "今天"
+                                    };
+                                    if (new Date(titleDate).getTime() == nowDate-24*60*60*1000) {//代表昨天
+                                        titleDate = "昨天"
+                                    };
+                                    listBoxStr += '<li data-date="'+ item.date +'">'+
+                                                     '<div class="picTimeTitle">'+ titleDate +'</div>'+
+                                                     '<div class="picList">'+
+                                                         listStr+
+                                                     '</div>'+
+                                                  '</li>';
+                                };
+                            }
+                        });
+
+                        //判断字符串是否为空
+                        if (listBoxStr == "") {
+                            $(".more").hide();
+                            // $(".contentEmpty").show();
+                            return;
+                        };
+                        // if (page == 1) {
+                        //     $("#mainList").html("");
+                        // };
+                        //拼入页面//显示点击
+                        $("#mainList").append(listBoxStr);
+
+                        //判断是否继续加载
+                        var total = e.data.total;
+                        if(page*pageSize < total){
+                            api.addEventListener({
+                                name:'scrolltobottom',
+                            }, function(ret, err){
+                                page++;
+                                // alert(page);
+                                setTimeout(function(){
+                                    picInit(cropId);
+                                },300)
+                            });
+                        }else{
+                            $('.more span').text('暂无更多照片...');
+                            $('.pull_icon').removeClass('loading');
+                            api.removeEventListener({
+                                name: 'scrolltobottom'
+                            });
+                        };
+
+                    },0)
+                }else{
+                    $(".more").hide();
+                    // $(".contentEmpty").show();
+                }
+            }
+        })
+    }
+
+    //获取城市位置
+    function getLocation(){
+        var address = "";
+        var bMap = api.require('bMap');
+        //获取经纬度
+        bMap.getLocation({
+            accuracy: '100m',
+            autoStop: true,
+            filter: 1
+        }, function(ret, err) {
+            if (ret.status) {
+                //alert(JSON.stringify(ret));
+                var lon = ret.lon;
+                var lat = ret.lat;
+                //获取城市
+                bMap.getNameFromCoords({
+                    lon: lon,
+                    lat: lat
+                }, function(ret, err) {
+                    if (ret.status) {
+                        addr = ret.address;
+                    }
+                });
+
+            } else {
+                //alert(err.code);
+            }
+        });
+
+    };
+
+    //图片预览
+		window.preview = function (dom) {
+  			var imgUrl = ($(dom).attr('src').split("?"))[0];
+  			// alert(JSON.stringify(imgUrl))
+  			imageBrowser.openImages({
+  					imageUrls: [
+  							imgUrl
+  					]
+  			});
+		};
+
+    //调用照片
+		function getPicture() {
+
+      //登录埋点
+      var buriedPoint = pds.buriedPoint();
+      buriedPoint.pageId = 'page_photos_list_service';
+      buriedPoint.eventId = 'button_add_photos_page_photos_list_service';
+      pds.ajaxSubmit({
+          url:"app/buried_point/save",
+          progress: false,
+          data:{"point":buriedPoint},
+          success:function(v){
+              //alert(JSON.stringify(v))
+          }
+      });
+
+        //获取位置
+        getLocation();
+  			//var imglen = $('#todayBox .picList .picBox').length;
+        var dateOne = $("#mainList li:first").attr("data-date");//alert(dateOne+"%%%%%%"+nowDate)
+        if (new Date(dateOne).getTime() == nowDate) {
+            var imglen = $('#mainList li:first .picBox').length;//alert(imglen)
+            if(imglen == 6){
+                api.toast({
+                    msg: '当天最多上传6张！',
+                    duration: 2000,
+                    location: 'middle'
+                });
+        				return
+      			};
+        };
+
+        var delBtnLth = $("#mainList .delBtnShow").length;
+        if (delBtnLth != 0) {
+            api.execScript({
+                name: 'openPlantPic_win',
+                script: 'delBtnInit();'
+            });
+            $("#mainList span").removeClass("delBtnShow");
+        };
+
+  		  api.actionSheet( {
+    		    cancelTitle: '取消',
+    		    buttons: [ '拍照', '从图片库选择' ]
+  		  }, function ( ret, err ) {
+    		    if (ret) {
+      		      addEventPhoto( ret.buttonIndex )
+    		    }
+  		  });
+		}
+
+    //上传方式
+		function addEventPhoto( sourceType ) {
+  		  var type = ''
+  		  if ( sourceType === 1 ) {
+    		    type = 'camera'
+    		    uploadImg( type )
+  		  } else if ( sourceType === 2 ) {
+    		    type = 'library'
+    		    uploadImg( type )
+  		  }
+		};
+
+    //上传图片
+    var appendFlag = false;
+		function uploadImg( type ) {
+        //显示今天外图片盒子
+        var lis = $("#mainList li");
+        if (lis.length > 0) {//alert(appendFlag+"*******3")
+            lis.each(function(){
+                var day = $(this).attr("data-date");
+                if (new Date(day).getTime() == nowDate) {//有今天的
+                    appendFlag = true;//alert(appendFlag+"*******1")
+                    return false;
+                }
+            });
+        };
+        var data = type == "camera" ? {cropId: cropId,addr: addr} : {cropId: cropId}
+        //alert(JSON.stringify(data));
+  		  api.getPicture({
+    		    sourceType: type,
+    		    encodingType: 'jpg',
+    		    mediaValue: 'pic',
+    		    allowEdit: false,
+    		    saveToPhotoAlbum: true,
+    		    destinationType: 'url'
+  		  }, function ( ret, err ) {
+      		  if ( ret && ret.data !== '' ) {
+    		        var localUrl = ret.data;
+                pds.ajaxUpload({
+      		          url: "/photo/upload",
+                    type:"post",
+      		          fileData: {file: localUrl},
+                    data:data,
+      		          success: function ( e ) {
+                        if (e.code != 0) {
+                            api.toast({
+                                msg: '上传失败！',
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                            return;
+                        };
+                        var urlData = e.data;console.log(urlData)
+                        var imgBox = '<div class="picBox"" data-id="'+ urlData.id +'">'+
+                                          '<img onclick="preview(this)" src="'+ localUrl +'" alt="">'+
+                                          '<span class="delBtn"></span>'+
+                                     '</div>';
+                        if (appendFlag) {
+                           $("#mainList li:first").find(".picList").prepend(imgBox);
+                        }else{//alert(appendFlag+"*******2")
+                           var todayStr = '<li data-date="'+ getNowFormatDate() +'" id="todayBox">'+
+                                            '<div class="picTimeTitle">今天</div>'+
+                                            '<div class="picList">'+
+                                                imgBox+
+                                            '</div>'+
+                                         '</li>';
+
+                           $("#mainList").prepend(todayStr);
+                        };
+
+      		          },
+      		          error: function ( e ) {
+        		            api.alert( {
+        		              msg: "服务器异常，请联系管理员!!!"
+        		            });
+      		          }
+  		          });
+  		      }
+  		  })
+		}
+
+    //删除图片
+    function delPic(){
+        $(".picBox span").toggleClass("delBtnShow");
+        $(".picList").off("click").on("click", ".delBtn", function(){
+            if ($(this).hasClass("delBtnShow")){
+                var this_ = $(this);
+                var id = this_.parent().attr('data-id');
+        				api.confirm({
+        						msg: '确定删除吗？',
+        						buttons: ['取消', '确定']
+        					}, function(ret, err) {
+        						var index = ret.buttonIndex;
+        						if(index == 2){
+                      //登录埋点
+                      var buriedPoint = pds.buriedPoint();
+                      buriedPoint.pageId = 'page_photos_list_service';
+                      buriedPoint.eventId = 'button_delete_photos_page_photos_list_service';
+                      pds.ajaxSubmit({
+                          url:"app/buried_point/save",
+                          progress: false,
+                          data:{"point":buriedPoint},
+                          success:function(v){
+                              //alert(JSON.stringify(v))
+                          }
+                      });
+
+        							pds.ajaxUpload({
+        				 				 url:"/photo/delById",
+        				 				 type : "POST",
+        				 				 data:{
+        				 						id : id,
+        				 				 },
+        				 				 success:function(e){
+        				 					  //alert(JSON.stringify(e));
+        				 						if (e.code == 0) {
+                                api.toast({
+                                    msg: '删除成功！',
+                                    duration: 2000,
+                                    location: 'middle'
+                                });
+        												this_.parent().remove();
+                                $(".picList").each(function(){
+                                    var html = $(this).html();
+                                    if (html == "") {
+                                        $(this).parent().remove();
+                                    }
+                                });
+
+                                if ($("#mainList").html() == "") {
+                                    api.execScript({
+                                        name: 'openPlantPic_win',
+                                        script: 'delBtnInit();'
+                                    });
+
+                                }
+        				 						}
+        				 				 }
+        				 			})
+        						}
+        			  });
+            };
+        });
+    }
+
+    //获取今天时间戳
+    function getNowFormatDate() {
+		    var date = new Date();
+		    var seperator1 = "-";
+		    var seperator2 = ":";
+		    var month = date.getMonth() + 1;
+		    var strDate = date.getDate();
+		    if (month >= 1 && month <= 9) {
+		        month = "0" + month;
+		    }
+		    if (strDate >= 0 && strDate <= 9) {
+		        strDate = "0" + strDate;
+		    }
+		    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+		    return currentdate;
+		}
+</script>
+</html>

@@ -1,0 +1,41 @@
+ <widget id="A6068192979351"  version="0.0.1">
+    <name>argiService</name>
+    <description>
+        Example For APICloud.
+    </description>
+    <author email="developer@apicloud.com" href="http://www.apicloud.com">
+        Developer
+    </author>
+    <content src="./html/login/welcomePage.html" />
+    <access origin="*" />
+    <preference name="pageBounce" value="false"/>    <preference name="softInputMode" value="resize"/>
+	<preference name="appBackground" value="rgba(0,0,0,0.0)"/>
+	<preference name="windowBackground" value="rgba(0,0,0,0.0)"/>
+	<preference name="frameBackgroundColor" value="rgba(0,0,0,0.0)"/>
+	<preference name="hScrollBarEnabled" value="true"/>
+	<preference name="vScrollBarEnabled" value="true"/>
+	<preference name="autoLaunch" value="true"/>
+	<preference name="fullScreen" value="false"/>
+	<preference name="autoUpdate" value="true" />
+	<preference name="smartUpdate" value="false" />
+	<preference name="debug" value="false"/>
+	<preference name="statusBarAppearance" value="true"/>
+	<permission name="readPhoneState" />
+	<permission name="camera" />
+	<permission name="record" />
+	<permission name="location" />
+	<permission name="fileSystem" />
+	<permission name="internet" />
+	<permission name="bootCompleted" />
+	<permission name="hardware" />  <feature name="bMap">   <param name="android_api_key" value="06GQ8OKhmaMxdlD2hppA5NT9jPmUbSTZ"/>   <param name="ios_api_key" value="oMB5z7gObLwjMMxWYuSTnqDYnleKCKSW"/> </feature>
+ <feature name="ajpush">
+   <param name="app_key" value="c24bc54e9f39ef8f6f7622f0"/>
+   <param name="channel" value="944c609a0e126206d9e9c7e7"/>
+ </feature>
+
+  <feature name="wx">
+    <param name="urlScheme" value="wxebb8f7f8f4c5518c"/>
+    <param name="apiKey" value="wxebb8f7f8f4c5518c"/>
+    <param name="apiSecret" value="db23d0747a0acc93e51c44c0f39c9e85"/>
+  </feature>
+</widget>

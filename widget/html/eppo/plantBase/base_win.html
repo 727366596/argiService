@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>基地</title>
+    <link rel="stylesheet" href="../../../css/common/public.css" />
+    <link rel="stylesheet" href="../../../css/common/header.css" />
+   	<script type="text/javascript" src="../../../script/common/rem.js"></script>
+    <script type="text/javascript" src="../../../script/common/api.js"></script>
+	  <script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+	  <script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+</head>
+<body>
+	<header id="aui-header">
+		<a class="left" tapmode onclick="closeWin()">
+			<span></span>
+		</a>
+		<div class="title">基地</div>
+    <a class="right" onclick="addFarmLand()">
+			<span id="addShow" class="addFarm" style="font-size:0.3rem;margin-right:-0.5rem;">添加</span>
+		</a>
+	</header>
+
+</body>
+
+<script type="text/javascript">
+
+    apiready = function(){
+			var loginId = api.pageParam.appUserId
+			var salseId = api.pageParam.userId
+			var farmType = api.pageParam.planRole
+			if(farmType === 'admin'){
+				if(loginId !== salseId){
+					var addShow = $api.byId('addShow');
+							$api.css(addShow,'display:none');
+				}
+			}
+        api.parseTapmode();
+        var header = $api.byId('aui-header');
+        $api.fixStatusBar(header);
+        var headerPos = $api.offset(header);
+        var body_h = $api.offset($api.dom('body')).h;
+        api.openFrame({
+            name: 'base_frm.html',
+            url: 'base_frm.html',
+            bounces: false,
+						pageParam:api.pageParam,
+            rect: {
+                x: 0,
+                y: headerPos.h,
+                w: 'auto',
+                h: 'auto'
+            }
+        });
+
+				api.addEventListener({
+				    name: 'reloadFarmLand'
+				}, function(ret, err) {
+						api.sendEvent({
+							name:'refreshFarmLandFrm'
+					});
+				});
+				api.addEventListener({
+				    name: 'refreshFarmLand'
+				}, function(ret, err) {
+						api.sendEvent({
+							name: 'FarmLandFrm'
+					});
+				});
+
+				//基地手机返回键监听
+				api.addEventListener({
+				    name: 'keyback'
+				}, function(ret, err) {
+					api.sendEvent({
+						name: 'closeToCustomer',
+					});
+				});
+    };
+    function closeWin(){
+			// api.closeWin({})
+			api.sendEvent({
+				name: 'closeToCustomer',
+		});
+    }
+		function addFarmLand(){
+			//登录埋点
+			var buriedPoint = pds.buriedPoint();
+			buriedPoint.pageId = 'page_base_list_service';
+			buriedPoint.eventId = 'button_add_base_information_page_base_list_service';
+			pds.ajaxSubmit({
+					url:"app/buried_point/save",
+					progress: false,
+					data:{"point":buriedPoint},
+					success:function(v){
+							//alert(JSON.stringify(v))
+					}
+			});
+			api.sendEvent({
+			    name: 'addFarm',
+			});
+		}
+</script>
+</html>

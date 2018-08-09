@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>启动页</title>
+	<style media="screen">
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			background: #fdfdfd;
+			overflow: hidden;
+			margin: 0;
+			padding: 0;
+		}
+
+		.box {
+			position: absolute;
+			top: 30px;
+			right: 10px;
+			background: #848484;
+			width: 66px;
+			line-height: 24px;
+			font-size: 15px;
+			text-align: center;
+			border-radius: 85px;
+			color: #fff;
+		}
+
+		span {
+			display: inline-block;
+		}
+
+		img {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+	<script type="text/javascript" src="../../script/common/rem.js"></script>
+	<script type="text/javascript" src="../../script/common/api.js"></script>
+	<script type="text/javascript" src="../../script/common/jquery.min.js"></script>
+	<script type="text/javascript" src="../../script/common/pds.ajax.js"></script>
+</head>
+
+<body>
+	<img src="../../image/start.png" alt="">
+	<div class="box">
+			<span style="margin-right:5px;">跳过</span><span class="jump">3</span>
+	</div>
+
+</body>
+
+<script type="text/javascript">
+	apiready = function() {
+				api.parseTapmode();
+				api.setFullScreen({
+					fullScreen: true
+				});
+				advImg();
+
+				api.addEventListener({
+					name: 'keyback'
+				}, function(ret, err) {
+					if (ret) {
+						return;
+					}
+				});
+
+			};
+		var time
+	function advImg() {
+			var systemType = api.systemType;
+			var code=''
+			if(systemType==='ios'){
+	     code="852592faa7304263ba7e43d8de246492"
+		 }else if(systemType==='android'){
+			 code="0c907317b63e45a4b91dd3eb81ab3258"
+		 }
+		 pds.ajaxSubmit({
+ 			url: "app/sys/get_adv",
+ 			data: {
+ 				"code": code,
+ 				"place": 'start'
+ 			},
+ 			success: function(e) {
+ 			//	console.log('++++++++' + JSON.stringify(e))
+ 				if (e.data !== null && e.data !== '') {
+ 					var data = e.data.data || []
+ 					if (data.length > 0) {
+ 						var pictureUrl = data[0].pictureUrl
+ 						$('img').attr('src', pictureUrl)
+						if(data[0].url!==''){
+							$('img').on('click', function() {
+	 							jumpPage(data[0].title, data[0].url)
+	 						})
+						}
+ 					}
+ 				}
+ 				setTimeout(function() {
+ 					var number = 3;
+ 					 time = setInterval(function() {
+ 						number--;
+ 						if (number > 0) {
+ 							$('.jump').text(number)
+ 						} else {
+ 							jumpLogin()
+ 						}
+ 					}, 1000)
+ 				}, 2000);
+
+ 			},
+ 			error: function(e) {
+		 			// 	api.alert({
+		 			// 		msg: "服务器错误，请联系管理员!"
+		 			// 	});
+					jumpLogin()
+ 			}
+ 		});
+ 	}
+
+
+ 	function jumpLogin() {
+	  	clearInterval(time)
+ 			api.openWin({
+ 				name: "login_new",
+ 				url: "widget://html/login/login_new.html",
+ 				reload: true,
+ 				slidBackEnabled: false,
+ 				animation: {
+ 					type: "movein", //动画类型（详见动画类型常量）
+ 					subType: "from_right", //动画子类型（详见动画子类型常量）
+ 					duration: 400 //动画过渡时间，默认300毫秒
+ 				}
+ 			});
+ 	}
+
+ 	$('.box').on('click', jumpLogin)
+
+ 	function jumpPage(title, url) {
+		clearInterval(time)
+ 		api.openWin({
+ 			name: 'startPage_win',
+ 			url: './startPage.html',
+ 			pageParam: {
+ 				title: title,
+ 				url: url
+ 			},
+ 			animation: {
+ 				type: "movein", //动画类型（详见动画类型常量）
+ 				subType: "from_right", //动画子类型（详见动画子类型常量）
+ 				duration: 400 //动画过渡时间，默认300毫秒
+ 			}
+ 		});
+ 	}
+</script>
+
+</html>

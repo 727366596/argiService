@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>土壤与播种信息</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/header_ph.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+</head>
+<body>
+    <div id="header">
+        <div class="headerLeft" onclick="back()"></div>
+        <div class="headerCenter">
+            土壤与播种信息
+        </div>
+        <div class="headerRight" onclick="changeInfo();">编辑</div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript">
+    var cropId = null;
+    var plantBaseRole = null, appUserId = null;
+    apiready = function(){
+        //适配iOS7+，Android4.4+状态栏沉浸式效果，详见config文档statusBarAppearance字段
+        var header = $api.byId('header');
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+        cropId = api.pageParam.cropId;
+        //角色
+        plantBaseRole = api.pageParam.plantBaseRole;
+        appUserId = api.pageParam.appUserId;
+
+        api.openFrame({
+            name: 'soilAndPlantInfo_frm',
+            url: './soilAndPlantInfo_frm.html',
+            bounces: false,
+            pageParam: {
+                cropId: cropId,
+                allArea: api.pageParam.allArea,
+                plantBaseRole: plantBaseRole,
+                appUserId: appUserId
+            },
+            rect: {
+                x: 0,
+                y: headerH,
+                w: 'auto',
+                h: 'auto'
+            }
+        });
+
+    };
+
+
+    //打开编辑页面***************************************************
+    function changeInfo(){
+        if (plantBaseRole != appUserId) {
+            api.toast({
+                msg: '请联系业务负责人！',
+                duration: 2000,
+                location: 'middle'
+            });
+            return;
+        };
+        api.execScript({
+            frameName: 'soilAndPlantInfo_frm',
+            script: 'soilAndPlantInfoChange();'
+        });
+    };
+
+    function back(){
+        api.closeWin();
+    }
+</script>
+</html>

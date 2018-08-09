@@ -1,0 +1,294 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>施肥信息</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/iscroll-style_.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+    <style>
+        html, body{
+            width: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: #f2f2f2;
+        }
+        body{
+            padding: 0 0.2rem;
+        }
+        .wrap{
+            width: 100%;
+        }
+
+        #chartBox{
+            width: 100%;
+            height:100%;
+            height: 6.0rem;
+            /*display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;*/
+        }
+        #mainList{
+            width: 100%;
+        }
+        #mainList>li{
+            width: 100%;
+            margin-top: 0.3rem;
+        }
+        #mainList>li .listTitle{
+            width: 100%;
+            height: 0.6rem;
+            background-color: #77b863;
+            padding: 0 0.2rem;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        #mainList>li .listTitle>span{
+            color: #fff;
+            font-size: 0.28rem;
+        }
+        #mainList>li .listMain{
+            background: #fff;
+            padding: 0.2rem;
+            border-radius: 0 0 0.1rem 0.1rem;
+        }
+        #mainList>li .listMain p{
+            width: 100%;
+            line-height: 0.75rem;
+            font-size: 0.28rem;
+            color: #666;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        #mainList>li .listMain p>span{
+            font-size: 0.28rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <ul id="mainList">
+           <!-- <li>
+              <div class="listTitle">
+                  <span class="listTitle-left">名称：复合微生物肥</span>
+                  <span class="listTitle-right">品牌：拜耳花费联合</span>
+              </div>
+              <div class="listMain">
+                  <p>
+                      <span>服务日：3天前</span>
+                      <span>本次成本：120元/亩</span>
+                  </p>
+                  <p>
+                      下次服务日：2018-12-20
+                  </p>
+              </div>
+           </li> -->
+
+        </ul>
+        <div class="more">
+            <i class="pull_icon"></i>
+            <span>上拉加载更多...</span>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+<script type="text/javascript" src="../../../script/common/echarts.common.min.js"></script>
+<script type="text/javascript" src="../../../script/common/emptyFrm.js"></script>
+<script type="text/javascript">
+    var page = 1, pageSize = 10, total = null;
+    var nowDate = null;
+    apiready = function(){
+        api.parseTapmode();
+        nowDate = new Date(getNowFormatDate()).getTime();
+        //获取数据
+        var cropId = api.pageParam.cropId;
+        getPageData(cropId, page, pageSize)
+
+        //alert($("body").height()+"***********"+$(".wrap").height())
+    };
+
+    //分页获取数据
+    function getPageData(cropId, page, pageSize){
+        $('.more span').text('加载中...');
+        $('.pull_icon').addClass('loading');
+        pds.ajaxUpload({
+            url:"/fertilizationMessage/list",
+            type:"GET",
+            data:{
+                cropId : cropId,
+                page : page,
+                pageSize : pageSize
+            },
+            success: function(e){
+                var listData = e.data.rows;//alert(JSON.stringify(listData))
+                if (listData != [] && listData!= "" && listData != null && listData != undefined) {
+                    $(".more").show();
+                    $('.more span').text('上拉加载更多...');
+                    $('.pull_icon').removeClass('loading');
+                    //数组按年份分类处理
+                    var listBoxStr = "";
+                    for (var i = 0; i < listData.length; i++) {
+                        var dataObj = listData[i];
+                        var nextTimeStr = "暂无";
+                        if (dataObj.nextTimeStr != "") {
+                            nextTimeStr = dataObj.nextTimeStr
+                        };
+                        listBoxStr += '<li data-id="'+ dataObj.id +'">'+
+                                         '<div class="listTitle">'+
+                                             '<span class="listTitle-left">名称：'+ dataObj.kindStr +'</span>'+
+                                             '<span class="listTitle-right">品牌：'+ dataObj.brand +'</span>'+
+                                         '</div>'+
+                                         '<div class="listMain">'+
+                                             '<p>'+
+                                                 '<span>'+ dataObj.maintain +'</span>'+
+                                                 '<span>本次成本：'+ (dataObj.expenditure/dataObj.area).toFixed(2) +'元/亩</span>'+
+                                             '</p>'+
+                                             '<p>'+
+                                                 '下次服务日：'+ nextTimeStr +
+                                             '</p>'+
+                                         '</div>'+
+                                      '</li>';
+                    };
+
+                    setTimeout(function(){
+                        //判断字符串是否为空
+                        if (listBoxStr == "") {
+                            $(".more").hide();
+                            // $(".contentEmpty").show();
+                            return;
+                        };
+                        if (page == 1) {
+                            $("#mainList").html("");
+                        };
+                        //拼入页面//显示点击
+                        $("#mainList").append(listBoxStr).off("click").on("click", "li", function(){
+                            //alert(JSON.stringify(api.pageParam.base));
+                            //登录埋点
+                            var buriedPoint = pds.buriedPoint();
+                            buriedPoint.pageId = 'page_fertilization_list_service';
+                            buriedPoint.eventId = 'button_view_fertilization_information_page_fertilization_list_service';
+                            pds.ajaxSubmit({
+                                url:"app/buried_point/save",
+                                progress: false,
+                                data:{"point":buriedPoint},
+                                success:function(v){
+                                    //alert(JSON.stringify(v))
+                                }
+                            });
+
+                            var id = $(this).attr("data-id");
+                            api.openWin({
+                                name: 'openFertilizerInfo_change_win',
+                                url: './openFertilizerInfo_change_win.html',
+                                pageParam: {
+                                    id: id,
+                                    cropId: cropId,
+                                    winName: api.winName,
+                                    allArea: api.pageParam.allArea,
+                                    plantBaseRole: api.pageParam.plantBaseRole,
+                                    appUserId: api.pageParam.appUserId
+
+                                }
+                            });
+                        })
+
+                        //判断是否继续加载
+                        var total = e.data.total;
+                        if(page*pageSize < total){
+                            api.addEventListener({
+                                name:'scrolltobottom',
+                            }, function(ret, err){
+                                page++;
+                                // alert(page);
+                                setTimeout(function(){
+                                    getPageData(cropId,page,pageSize);
+                                },300)
+                            });
+                        }else{
+                            $('.more span').text('暂无更多施肥信息...');
+                            $('.pull_icon').removeClass('loading');
+                            api.removeEventListener({
+                                name: 'scrolltobottom'
+                            });
+                        };
+                    },100)
+
+
+                }else{
+                    $(".more").hide();
+                    // $(".contentEmpty").show();
+                }
+            }
+        })
+    };
+
+
+    //获取今天时间戳
+    function getNowFormatDate() {
+		    var date = new Date();
+		    var seperator1 = "-";
+		    var seperator2 = ":";
+		    var month = date.getMonth() + 1;
+		    var strDate = date.getDate();
+		    if (month >= 1 && month <= 9) {
+		        month = "0" + month;
+		    }
+		    if (strDate >= 0 && strDate <= 9) {
+		        strDate = "0" + strDate;
+		    }
+		    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+		    return currentdate;
+		}
+
+</script>
+</html>

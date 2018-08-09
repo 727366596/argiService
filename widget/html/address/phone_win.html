@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>公司通讯录</title>
+    <link rel="stylesheet" href="../../css/common/public.css" />
+    <link rel="stylesheet" href="../../css/common/header.css" />
+    <script type="text/javascript" src="../../script/common/rem.js"></script>
+    <script type="text/javascript" src="../../script/common/remote.config.js"></script>
+    <style media="screen">
+        .content {
+            font-size: 0.28rem;
+            color: #958d8d;
+            padding: 0.18rem 0.28rem;
+            box-sizing: border-box;
+        }
+
+        span {
+            display: inline-block;
+        }
+
+        .search {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .search .text {
+            width: 100%;
+            height: 0.55rem;
+            border: 1px solid #87cc8c;
+            text-align: center;
+            color: #958d8d;
+            margin-bottom: 0.16rem;
+            font-size: 0.28rem;
+        }
+        /*.search .input {
+		background: url(../../image/index/answer/search.png) no-repeat 25% center;
+		background-size: 0.32rem 0.31rem;
+	}*/
+        /*input提示信息字颜色*/
+
+        .text::-webkit-input-placeholder {
+            color: #958d8d;
+            font-size: 0.28rem;
+        }
+
+        .text:-moz-placeholder {
+            color: #958d8d;
+            font-size: 0.28rem;
+        }
+
+        .text:-ms-input-placeholder {
+            color: #958d8d;
+            font-size: 0.28rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="aui-header">
+        <div class="title">手机版本信息</div>
+    </header>
+    <div class="content">
+        <div class="search">
+            <input class="text input" id="search" type="text" placeholder="输入名字进行查询" />
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    apiready = function() {
+        var phoneInfoMore = api.require('phoneInfoMore');
+        phoneInfoMore.getBaseInfo(function(ret, err) {
+            console.log(JSON.stringify(ret));
+            if (ret) {
+                console.log(ret.ipMac);
+            }
+        });
+    }
+</script>
+
+</html>

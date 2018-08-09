@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+<title>首页</title>
+<link rel="stylesheet" type="text/css" href="../css/common/api.css"/>
+<link rel="stylesheet" type="text/css" href="../css/common/common.css"/>
+<script type="text/javascript" src="../script/common/remote.config.js"></script>
+<style>
+	#navTopLine{
+		width:100%;
+		height:1px;
+		background:#fff;
+		position:fixed;
+		left:0;
+		right:0;
+		bottom:0px;
+		z-index: 999999;
+	}
+	#main img{
+		width: 90px;
+		height: 90px;
+	}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="main">
+
+  </div>
+</div>
+<div id="navTopLine"></div>
+<script type="text/javascript" src="../script/common/api.js"></script>
+<script type="text/javascript" src="../script/common/jquery.min.js"></script>
+<script type="text/javascript">
+
+function closeWin(){
+    api.closeWin();
+}
+
+var obj = null;
+apiready = function(){
+	// alert(JSON.stringify(api.pageParam))
+	// var punTag = api.pageParam.type
+	// if(punTag === "true"){
+	// 	setInterval(init,5000)
+	// }else{
+	//
+	// }
+	var flag = api.pageParam.extend_params==undefined;// 是否是点击导航
+
+ 	api.addEventListener({
+			name: 'keyback'
+	}, function(ret, err) {
+			back();
+	});
+	api.addEventListener({
+	    name: 'recordPoint'
+		}, function(ret, err) {
+		    setInterval(init,5000)
+		});
+	api.openFrameGroup({
+	    name: 'group1',
+			scrollEnabled: false,
+			preload: 3,
+			rect : {
+				// x : 0,
+				// y : 0,
+				// w : 'auto',
+				// h : api.winHeight-51,
+				marginTop : 0,
+				marginLeft : 0,
+				marginRight : 0,
+				marginBottom : 50
+			},
+	    frames: [{
+	        name: 'index_win',
+	        url: './index/index_win.html',
+	        bgColor: '#fff'
+	    }, {
+	        name: 'company_win',
+	        url: './address/company_win.html',
+	        bgColor: '#fff'
+	    }, {
+	        name: 'mysettings_index',
+	        url: './mysetting/mysettings_index.html',
+	        bgColor: '#fff'
+	    }]
+	}, function(ret, err) {
+	    // var index = ret.index;
+			// setTabBarIndex(index);
+	});
+
+
+
+	obj = api.require('tabBar');
+  var index;
+	obj.open({
+	    bgImg:'widget://image/home/home_nav_bc.jpg',
+	    selectImg:'widget://res/selecte_tabBar.png',
+	    items:[
+	           {title:'首页',img:'widget://image/home/home_nav1_blur.jpg',color:'#999999',selected:'widget://image/home/home_nav1_act.jpg',selectedTitleColor:'#66BB6A'},
+	           {title:'通讯录',img:'widget://image/home/home_nav2_blur.jpg',color:'#999999',selected:'widget://image/home/home_nav2_act.jpg',selectedTitleColor:'#66BB6A'},
+	           {title:'我的',img:'widget://image/home/home_nav3_blur.jpg',color:'#999999',selected:'widget://image/home/home_nav3_act.jpg',selectedTitleColor:'#66BB6A'},
+	         ],
+	    selecteIndex:0,
+	    perScreenBtn:3,
+	    h:'50'
+	},function(ret,err){
+			if(index===ret.index){
+					return;
+			}
+			// if (ret.index != 1) {
+			// 		api.execScript({
+			// 			  name: 'win_home',
+			// 		    frameName: 'company_win',
+			// 		    script: 'closeContact();'
+			// 		});
+			// }
+			api.setFrameGroupIndex({
+			    name: 'group1',
+			    index: ret.index
+			});
+	});
+
+}
+
+
+function setTabBarIndex(tabBarIndex){
+	obj.setSelect({
+	    index: tabBarIndex
+	});
+}
+
+function back(){
+	api.confirm({
+		 title: '退出提示',
+		 msg: '确定要退出程序吗？',
+		 buttons: ['确定', '取消']
+ }, function(ret, err) {
+		 var index = ret.buttonIndex;
+		 if (index == 1) {
+			 	api.closeWidget({
+			 		silent:true,
+			 		animation: {
+			 			type: 'flip',
+			 			subType: 'from_bottom',
+			 			duration: 1500
+			 		}
+			  });
+			 //api.toLauncher();
+		 }
+ });
+ }
+</script>
+</body>
+</html>

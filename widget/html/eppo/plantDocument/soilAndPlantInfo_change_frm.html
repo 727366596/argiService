@@ -1,0 +1,404 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>土壤与播种信息</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/iscroll-style_.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+    <style>
+        html, body{
+            width: 100%;height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: #f2f2f2;
+            padding: 0.2rem;
+        }
+        .optionBox{
+            width: 100%;
+            background-color: #fff;
+            padding: 0.3rem 0.2rem;
+            padding-top: 0.6rem;
+        }
+        .optionBox>li{
+            width: 100%;
+            padding-left: 0.3rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: start;
+            -webkit-align-items: flex-start;
+            align-items: flex-start;
+        }
+        .optionBox>li>lable{
+            width: 1.3rem;
+            height:0.8rem;
+            line-height: 0.8rem;
+            text-align: right;
+            font-size: 0.28rem;
+            color:#666;
+        }
+        .optionBox>li>input, .optionBox>li>select{
+            height: 0.8rem;
+            line-height: 0.8rem;
+            padding:0 1.2rem 0 0.2rem;
+            border: solid 1px #b0bcb0;
+            outline: none;
+            width: 4.4rem;
+            font-size: 0.28rem;
+            color:#666;
+        }
+        .optionBox>li>span, .optionBox>li>i{
+            position: absolute;
+            right: 0;
+            top: 0;
+            min-width: 1.2rem;
+            height:0.8rem;
+            line-height: 0.8rem;
+            text-align: right;
+
+            font-size: 0.28rem;
+            color: #666;
+        }
+        .optionBox>li>span{
+            padding-right: 0.2rem;
+        }
+        .optionBox>li>i{
+            background: url("../../../image/plantDoc/more_down.png") no-repeat center center;
+            background-size: 0.35rem 0.2rem;
+        }
+        .optionBox>li>textarea{
+            /*height: 2.2rem;*/
+            line-height: 0.4rem;
+            padding:0.2rem;
+            border: solid 1px #b0bcb0;
+            outline: none;
+            width: 4.4rem;
+            font-size: 0.28rem;
+            color:#666;
+        }
+        .optionBox>li>p{
+            width: 4.4rem;
+            line-height: 0.45rem;
+            font-size: 0.28rem;
+            color:#666;
+        }
+        .require{
+            background: url("../../../image/plantDoc/require.png") no-repeat left 0.28rem;
+            background-size: 0.16rem 0.16rem;
+        }
+    </style>
+</head>
+<body>
+    <ul class="optionBox">
+        <li class="require">
+            <lable>土壤质地:</lable>
+            <!-- <input type="text" name="farmName" placeholder="请选择土壤质地" value="" readonly="true"> -->
+            <select class="option" id="soilGrainId">
+
+            </select>
+            <i></i>
+        </li>
+        <li class="require">
+            <lable>土壤肥力:</lable>
+            <!-- <input type="text" name="farmLocation" placeholder="请选择土壤肥力" value="" readonly="true"> -->
+            <select class="option" id="soilFertilityId">
+
+            </select>
+            <i></i>
+        </li>
+        <li>
+            <lable>PH:</lable>
+            <!-- <input type="text" name="farmAddress" placeholder="请选择土壤PH值" value="第一基地" readonly="true"> -->
+            <select class="option" id="phId">
+
+            </select>
+            <i></i>
+        </li>
+        <li>
+            <lable>有机质:</lable>
+            <input type="number" name="organicMatter" id="organicMatter" placeholder="请输入有机质含量" value="">
+            <span>g/kg</span>
+        </li>
+        <li>
+            <lable>碱解氮:</lable>
+            <input type="number" name="availableNitrogen" id="availableNitrogen" placeholder="请输入碱解氮含量" value="">
+            <span>mg/kg</span>
+        </li>
+        <li>
+            <lable>有效磷:</lable>
+            <input type="number" name="availablePhosphorus" id="availablePhosphorus" placeholder="请输入有效磷含量" value="">
+            <span>mg/kg</span>
+        </li>
+        <li>
+            <lable>速效钾:</lable>
+            <input type="number" name="rapidlyAvailablePotassium" id="rapidlyAvailablePotassium" placeholder="请输入速效钾含量" value="">
+            <span>mg/kg</span>
+        </li>
+        <li>
+            <lable>CEC:</lable>
+            <input type="number" name="cec" id="cec" placeholder="请输入土壤CEC" value="">
+            <span>cmol/kg</span>
+        </li>
+        <li>
+            <lable>其他:</lable>
+            <textarea name="other" id="other" rows="4" cols="80" placeholder="请输入土壤其他信息"></textarea>
+        </li>
+        <li>
+            <lable>种植方式:</lable>
+            <textarea name="plantPattern" id="plantPattern" rows="2" cols="80" placeholder="请输入种植方式"></textarea>
+        </li>
+        <li>
+            <lable>播种深度:</lable>
+            <input type="number" name="depth" id="depth" placeholder="请输入播种深度" value="">
+            <span>cm</span>
+        </li>
+        <li>
+            <lable>播种墒情:</lable>
+            <textarea name="soilMoistureContent" id="soilMoistureContent" rows="4" cols="80" placeholder="请输入播种墒情"></textarea>
+        </li>
+
+    </ul>
+
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+<script type="text/javascript" src="../../../script/common/emptyFrm.js"></script>
+<script type="text/javascript">
+    var changeFlag = false;    var baseId = 1;
+    apiready = function(){
+        api.parseTapmode();
+        //获取质地列表
+        var soilGrainId = $("#soilGrainId");
+        getOptionList(soilGrainId, "soil-grain", "请选择土壤质地");
+        //获取肥力列表
+        var soilFertilityId = $("#soilFertilityId");
+        getOptionList(soilFertilityId, "soil-fertility", "请选择土壤肥力");
+        //获取PH列表
+        var phId = $("#phId");
+        getOptionList(phId, "PH", "请选择土壤PH值");
+
+        //各种输入框监听
+        // var reg = /^(0(?!\.{1}0{1,2}$)(\.[0-9]{1,2})?|[1-9][0-9]{0,3}(\.{1}[0-9]{1,2})?)$/;
+        //var reg = /^[1-9]{1}[0-9]{0,3}(\.{1}[0-9]{1,2})$/;
+        var reg=/^[1-9][0-9]{0,3}([\.]{0,1}[0-9]{0,2})$/;
+        var regTitle = "请输入正确数值";
+        addEventInput("organicMatter", "", reg, regTitle);//有机质
+        addEventInput("availableNitrogen", "", reg, regTitle);//碱解氮
+        addEventInput("availablePhosphorus", "", reg, regTitle);//有效磷
+        addEventInput("rapidlyAvailablePotassium", "", reg, regTitle);//速效钾
+        addEventInput("cec", "", reg, regTitle);//CEC
+        addEventInput("depth", "", reg, regTitle);//播种深度
+        addEventInput("other", 50, reg, regTitle);//其他
+        addEventInput("plantPattern", 20, reg, regTitle);//种植方式
+        addEventInput("soilMoistureContent", 50, reg, regTitle);//墒情
+
+        //数据回显
+        // setTimeout(function(){
+        //     dataShow()
+        // },1000)
+
+    };
+
+    //数据回显
+    function dataShow(){
+        var data = api.pageParam.data;
+        if (data == "" || data == undefined || data == null || JSON.stringify(data) == "{}") {
+            return;
+        };
+        $.each(data, function(key, value){
+            if (value) {
+                $("#"+key).val(value)
+            };
+        })
+    }
+
+    //保存提交
+    function dataUp(){
+        var soilGrainId = $("#soilGrainId").val();
+        if (soilGrainId == "") {
+            api.toast({
+                msg: '请选择土壤质地！',
+                duration: 2000,
+                location: 'middle'
+            });
+            return;
+        };
+        var soilFertilityId = $("#soilFertilityId").val();
+        if (soilFertilityId == "") {
+            api.toast({
+                msg: '请选择土壤肥力！',
+                duration: 2000,
+                location: 'middle'
+            });
+            return;
+        };
+        api.confirm({
+            title: '提示！',
+            msg: '确认保存？',
+            buttons: ['确定', '取消']
+        }, function(ret, err){
+            if( ret ){
+                var btnIndex = ret.buttonIndex;
+                if (btnIndex == 1) {
+
+                    //登录埋点
+                    var buriedPoint = pds.buriedPoint();
+                    buriedPoint.pageId = 'page_soil_and_seeding_information_service';
+                    buriedPoint.eventId = 'button_save_soil_and_seeding_information_page_plant_protection_archive_service';
+                    pds.ajaxSubmit({
+                        url:"app/buried_point/save",
+                        progress: false,
+                        data:{"point":buriedPoint},
+                        success:function(v){
+                            //alert(JSON.stringify(v))
+                        }
+                    });
+
+                    var ajaxData = (function(){
+                        var dataObj = {};
+                        $("input, textarea, select").each(function(){
+                            var value = $(this).val();
+                            var valueKey = $(this).attr("id");
+                            if (value != "") {
+                                dataObj[valueKey] = value;
+                            };
+                        });
+
+                        var id = api.pageParam.id;
+                        if (id != undefined && id != "") {
+                            dataObj.id = id;
+                        };
+                        //作物Id;
+                        var cropId = api.pageParam.cropId;
+                        dataObj.cropId = cropId;
+                        return dataObj;
+                    })();
+                    //alert(JSON.stringify(ajaxData));
+                    pds.ajaxUpload({
+                        url: "/soilSeedMessage/saveOrUpdate",
+                        body: ajaxData,
+                        success: function(e){
+                            if (e.msg == "OK") {
+                                api.execScript({
+                                    name: 'plantDocInfo_win',
+                                    frameName: 'plantDocInfo_frm',
+                                    script: 'window.location.reload();'
+                                });
+                                api.execScript({
+                                    name: 'soilAndPlantInfo_win',
+                                    frameName: 'soilAndPlantInfo_frm',
+                                    script: 'window.location.reload();'
+                                });
+                                api.toast({
+                                    msg: '保存成功！',
+                                    duration: 2000,
+                                    location: 'middle'
+                                });
+                                setTimeout(function(){
+                                    api.closeWin();
+                                },1000);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+
+    //字典接口查询所需数据
+    function getOptionList(obj, type, title){
+        pds.ajaxUpload({
+            url: "/dict/list",
+            type:"get",
+            progress: false,
+            data:{
+                type : type
+            },
+            success: function(e){
+                //alert(JSON.stringify(e.data));
+                var data = e.data;
+                if (data != [] && data != null) {
+                    var listStr = '<option value ="">'+ title +'</option>';
+                    //var listStr = "";
+                    for (var i = 0; i < data.length; i++) {
+                        var listObj = data[i];
+                        if (listObj.id == null || listObj.name == null || listObj.id == "" || listObj.name == "") {
+                            continue;
+                        }
+                        listStr += '<option value="'+ listObj.id +'">'+ listObj.name +'</option>'
+                    };
+                    obj.html(listStr).change(function(){//监听输入框是否有修改
+                        changeFlag = true;
+                    });
+                    //数据回显
+                    dataShow();
+                }
+            }
+        })
+    };
+
+    //监听输入框
+    function addEventInput(obj, length, reg, regTitle){
+        //面积输入
+        $("#"+obj).bind('input porpertychange',function(){
+              changeFlag = true;
+              var str = $(this).val();
+              if (length != "" && str != "") {
+                  if (str.length > length) {
+                      api.toast({
+                          msg: '最多可输入'+ length +'字',
+                          duration: 2000,
+                          location: 'middle'
+                      });
+                      $(this).val(str.slice(0,length))
+                  };
+                  return;
+              };
+              // var reg=/^[1-9][0-9]{0,5}[\.]{0,1}[0-9]{0,2}$/;
+              if(str != ""){
+                  var strArr = str.split(".");console.log(strArr.length)
+                  if(strArr.length > 2 || !reg.test(str)){
+                      api.toast({
+                          msg: regTitle,
+                          duration: 2000,
+                          location: 'middle'
+                      });
+                      $(this).val("");
+                  }
+
+              }
+        });
+    };
+
+    //页面数据变更
+    function pageChange(){
+        if (changeFlag) {
+            api.execScript({
+                name: 'soilAndPlantInfo_change_win',
+                script: 'back();'
+            });
+        }else{
+            api.closeWin();
+        }
+    }
+</script>
+</html>

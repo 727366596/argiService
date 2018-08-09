@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>土壤与播种信息</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/header_ph.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+</head>
+<body>
+    <div id="header">
+        <div class="headerLeft"></div>
+        <div class="headerCenter">
+            编辑土壤与播种信息
+        </div>
+        <div class="headerRight"></div>
+    </div>
+
+    <div id="footer">
+            保存
+    </div>
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+
+<script type="text/javascript">
+    apiready = function(){
+        //适配iOS7+，Android4.4+状态栏沉浸式效果，详见config文档statusBarAppearance字段
+        var header = $api.byId('header');
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+        var footer = $api.byId('footer');
+        var footerH = $api.offset(footer).h;
+
+        api.openFrame({
+            name: 'soilAndPlantInfo_change_frm',
+            url: './soilAndPlantInfo_change_frm.html',
+            bounces: false,
+            pageParam: {
+                cropId : api.pageParam.cropId,
+                id : api.pageParam.id,
+                allArea: api.pageParam.allArea,
+                winName : api.pageParam.winName,
+                data: api.pageParam.data
+            },
+            rect: {
+                x: 0,
+                y: headerH,
+                w: 'auto',
+                h: api.winHeight-headerH-footerH
+            }
+        });
+        //点击左上角返回
+        $(".headerLeft").on("touchend", function(){
+            api.execScript({
+                frameName: 'soilAndPlantInfo_change_frm',
+                script: 'pageChange();'
+            });
+        });
+        //监听返回
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            api.execScript({
+                frameName: 'soilAndPlantInfo_change_frm',
+                script: 'pageChange();'
+            });
+        });
+
+        //点击提交
+        $("#footer").off("touchend").on("touchend",function(){
+            //登录埋点
+            var buriedPoint = pds.buriedPoint();
+            buriedPoint.pageId = 'page_soil_and_seeding_information_service';
+            buriedPoint.eventId = 'button_want_to_save_soil_and_seeding_information_page_plant_protection_archive_service';
+            pds.ajaxSubmit({
+                url:"app/buried_point/save",
+                progress: false,
+                data:{"point":buriedPoint},
+                success:function(v){
+                    //alert(JSON.stringify(v))
+                }
+            });
+
+            api.execScript({
+                frameName: 'soilAndPlantInfo_change_frm',
+                script: 'dataUp();'
+            });
+        });
+
+
+    };
+
+    function back(){
+        api.confirm({
+            title: '提示！',
+            msg: '确定放弃已修改的信息吗？',
+            buttons: ['取消', '确定']
+        }, function(ret, err){
+            var index = ret.buttonIndex;
+            if( index == 2 ){
+                 api.closeWin();
+            };
+        });
+    }
+</script>
+</html>

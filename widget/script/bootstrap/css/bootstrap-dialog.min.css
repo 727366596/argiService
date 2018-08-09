@@ -1,0 +1,60 @@
+.bootstrap-dialog .modal-header{border-top-left-radius:4px;border-top-right-radius:4px}.bootstrap-dialog .bootstrap-dialog-title{color:#fff;display:inline-block;font-size:16px}.bootstrap-dialog .bootstrap-dialog-message{font-size:14px}.bootstrap-dialog .bootstrap-dialog-button-icon{margin-right:3px}.bootstrap-dialog .bootstrap-dialog-close-button{font-size:20px;float:right;filter:alpha(opacity=90);-moz-opacity:.9;-khtml-opacity:.9;opacity:.9}.bootstrap-dialog .bootstrap-dialog-close-button:hover{cursor:pointer;filter:alpha(opacity=100);-moz-opacity:1;-khtml-opacity:1;opacity:1}.bootstrap-dialog.type-default .modal-header{background-color:#fff}.bootstrap-dialog.type-default .bootstrap-dialog-title{color:#333}.bootstrap-dialog.type-info .modal-header{background-color:#5bc0de}.bootstrap-dialog.type-primary .modal-header{background-color:transparent}.bootstrap-dialog.type-success .modal-header{background-color:#5cb85c}.bootstrap-dialog.type-warning .modal-header{background-color:#f0ad4e}.bootstrap-dialog.type-danger .modal-header{background-color:#d9534f}.bootstrap-dialog.size-large .bootstrap-dialog-title{font-size:24px}.bootstrap-dialog.size-large .bootstrap-dialog-close-button{font-size:30px}.bootstrap-dialog.size-large .bootstrap-dialog-message{font-size:18px}.bootstrap-dialog .icon-spin{display:inline-block;-moz-animation:spin 2s infinite linear;-o-animation:spin 2s infinite linear;-webkit-animation:spin 2s infinite linear;animation:spin 2s infinite linear}@-moz-keyframes spin{0%{-moz-transform:rotate(0deg)}100%{-moz-transform:rotate(359deg)}}@-webkit-keyframes spin{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(359deg)}}@-o-keyframes spin{0%{-o-transform:rotate(0deg)}100%{-o-transform:rotate(359deg)}}@-ms-keyframes spin{0%{-ms-transform:rotate(0deg)}100%{-ms-transform:rotate(359deg)}}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(359deg)}}
+.bootstrap-dialog-message .mgbody{font-size:16px;}
+.modal-footer .btn+.btn{margin-left:0px !important}
+
+/*alertMessage*/
+.bootstrap-dialog.type-warning .modal-dialog{width:500px;background:#fff;}
+.bootstrap-dialog.type-warning .modal-dialog .modal-content{border-radius:0;-webkit-box-shadow: 0px 2px 2px rgba(53, 53, 53, .35);box-shadow: 0px 2px 2px rgba(53, 53, 53, .35);}
+.bootstrap-dialog.type-warning .modal-header{border-radius:0;margin:0;padding:0;margin-left:20px;margin-right:20px;height:56px;line-height:56px;border:0;border-bottom:1px solid #f2f2f2;background:none;}
+.bootstrap-dialog.type-warning .bootstrap-dialog-title{color:#535353;}
+.bootstrap-dialog.type-warning .modal-header .close{margin-top:18px;opacity:1;}
+.bootstrap-dialog.type-warning .modal-body{padding-top:60px;padding-bottom:60px;text-align: center;}
+.bootstrap-dialog.type-warning .modal-footer{text-align: center;padding:0 0 30px 0;border-top:0;}
+.bootstrap-dialog.type-warning .modal-footer button.btn{width:102px;height:30px;background:#00a9f4;border-radius:4px;color:#fff;padding:0;}
+
+/*showMessage--显示为表格的样式*/
+.bootstrap-dialog.type-primary.mgdialog{}
+.bootstrap-dialog.type-primary.mgdialog .modal-dialog{width:700px;}
+.bootstrap-dialog.type-primary.mgdialog .modal-content{padding: 0 44px;border-radius:4px;border-width:0px;-webkit-box-shadow: 0px 2px 6px rgba(53, 53, 53, .35);box-shadow: 0px 2px 6px rgba(53, 53, 53, .35);}
+.bootstrap-dialog.type-primary.mgdialog .modal-header{border-radius: 0;background: #fff;height: 56px;padding: 19px 0 17px !important;position: relative;border-bottom: 0}
+.bootstrap-dialog.type-primary.mgdialog .modal-header button.close{color:#14b5fc;opacity:1;}
+.bootstrap-dialog.type-primary.mgdialog .modal-footer{text-align: center;padding:25px 0 40px 0;border-top:0;}
+.bootstrap-dialog.type-primary.mgdialog .bootstrap-dialog-title{color:#3589ff;}
+.bootstrap-dialog.type-primary.mgdialog .modal-footer button.btn-default{width:102px;height:30px;background:#00a9f4;border-radius:4px;color:#fff;padding:0;margin-left:9px;margin-right:9px;}
+.bootstrap-dialog.type-primary.mgdialog .modal-footer button.btn-default:hover{border:0;background:rgba(55, 187, 248, 1) none repeat scroll 0 0}
+
+.bootstrap-dialog.type-primary.mgdialog .modal-footer button.red_btn{color:#fff;filter: progid:DXImageTransform.Microsoft.gradient(GradientType = 0, startColorstr = #32deb1, endColorstr = #16cfc7);  width:111px;height:35px;
+background:linear-gradient(to top right, #fa584f , #fc6c2e);border-radius: 30px;width:105px;height:35px;line-height:35px;}
+.bootstrap-dialog.type-primary.mgdialog .modal-footer button.blue_btn{color:#fff;border-radius:30px !important;width:105px !important;height:35px !important;line-height:35px !important;background:#3589ff!important}
+.custom-style.bootstrap-dialog.mgdialog .fixed-table-body{max-height:400px}
+
+/* confirm */
+.bootstrap-dialog.myConfirm{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display:flex;
+
+    -webkit-box-orient: horizontal;
+    -webkit-flex-flow: row;
+    flex-flow: row;
+
+    -webkit-box-pack: justify;
+    -webkit-justify-content: center;
+    justify-content:  center;
+
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.bootstrap-dialog.myConfirm .modal-dialog{}
+.bootstrap-dialog.myConfirm .modal-content{position: relative;width: 6.35rem;min-height:3.1rem;border-radius:6px;padding-bottom:0.75rem;}
+.bootstrap-dialog.myConfirm .modal-header{position: relative;padding-top: 0px;border-bottom: none;height:0.7rem;line-height:0.7rem;padding-left: 0.35rem;}
+.bootstrap-dialog.myConfirm .modal-header:before{display:block;content:'';position: absolute;left: 0.35rem;width:0.8rem;height:2px;background:#ef8132;}
+.bootstrap-dialog.myConfirm .modal-header .bootstrap-dialog-title{color:#ef8132;text-align: center;height:90%;}
+.bootstrap-dialog.myConfirm .modal-body{padding: 0.3rem 0.8rem 0.5rem 0.8rem;text-align:center;min-height:1.2rem;color: #666!important;font-size: 0.34rem;}
+.bootstrap-dialog.myConfirm .modal-footer{position: absolute;bottom: 0;left: 0;right: 0;padding: 0;border-top:solid 1px #ef8132;}
+.bootstrap-dialog.myConfirm .modal-footer button.red_btn{ padding: 0;color:#fff;filter: progid:DXImageTransform.Microsoft.gradient(GradientType = 0, startColorstr = #32deb1, endColorstr = #16cfc7);  width:50% !important;
+background:#ef8132;border-radius: 0px;height:0.75rem;line-height:0.75rem;float: left;border-bottom-left-radius: 6px;}
+.bootstrap-dialog.myConfirm .modal-footer button.blue_btn{padding: 0;float: left;color:#6b6e73;border-radius:0px !important;width:50% !important;height:0.75rem!important;
+line-height:0.75rem!important;background:#f6f6f6!important;border-bottom-right-radius: 6px !important;}
+/*.custom-style.bootstrap-dialog.myConfirm .fixed-table-container tbody tr:first-child td {border-top: none;white-space: nowrap;}*/

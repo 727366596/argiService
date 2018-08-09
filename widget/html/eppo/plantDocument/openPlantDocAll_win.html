@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>植保档案总览</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/header_ph.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+</head>
+<body>
+    <div id="header">
+        <div class="headerLeft" onclick="back()"></div>
+        <div class="headerCenter">
+            植保档案总览
+        </div>
+        <div class="headerRight"></div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript">
+    apiready = function(){
+        //适配iOS7+，Android4.4+状态栏沉浸式效果，详见config文档statusBarAppearance字段
+        var header = $api.byId('header');
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+
+
+        api.openFrame({
+            name: 'openPlantDocAll_frm',
+            url: './openPlantDocAll_frm.html',
+            bounces: false,
+            overScrollMode: 'scrolls',
+            pageParam: {
+                headerH: headerH,
+                cropId: api.pageParam.cropId,
+                topData: api.pageParam.topData,
+                base: api.pageParam.base,
+            },
+            rect: {
+                x: 0,
+                y: headerH,
+                w: 'auto',
+                h: 'auto'
+            }
+        });
+
+        // $(".headerRight").off("click").on("click", function(){
+        //     api.execScript({
+        //         frameName: 'openPlantDocAll_frm',
+        //         script: 'createPng();'
+        //     });
+        // })
+
+    };
+
+    function back(){
+        api.closeWin();
+    }
+</script>
+</html>

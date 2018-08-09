@@ -1,0 +1,729 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>编辑用药信息</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/iscroll-style_.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/mui.picker.min.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+    <style>
+        html, body{
+            width: 100%;
+            /*height: 100%;*/
+        }
+        body{
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: #f2f2f2;
+            padding: 0.2rem;
+        }
+        .optionBox{
+            width: 100%;
+            background-color: #fff;
+            padding: 0.3rem 0.2rem;
+            padding-top: 0.6rem;
+        }
+        .optionBox>li{
+            width: 100%;
+            /*padding-left: 0.3rem;*/
+            margin-bottom: 0.5rem;
+            position: relative;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: start;
+            -webkit-align-items: flex-start;
+            align-items: flex-start;
+        }
+        .optionBox>li>lable{
+            width: 1.55rem;
+            height:0.8rem;
+            line-height: 0.8rem;
+            text-align: right;
+            font-size: 0.28rem;
+            color:#666;
+        }
+        .optionBox>li>input, .optionBox>li>.percent>input,  .optionBox>li>select{
+            height: 0.8rem;
+            line-height: 0.8rem;
+            padding:0 1.2rem 0 0.2rem;
+            border: solid 1px #b0bcb0!important;
+            outline: none;
+            width: 4.6rem;
+            font-size: 0.28rem;
+            color:#666;
+            margin-bottom: 0;
+
+        }
+        .optionBox>li>.percent>input{
+            margin-bottom: 0.5rem;
+        }
+
+        .optionBox>li>div.percent{
+            position: relative;
+            width: 4.6rem;
+            margin-bottom: 0;
+            line-height: 1.0rem;
+            font-size: 0.28rem;
+            color:#666;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: flex-start;
+            justify-content: flex-start;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+
+            -webkit-box-lines:multiple;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+
+        }
+        .optionBox>li>.percent>span{
+            width: 49%;
+            margin-bottom: 0.5rem;
+        }
+        .optionBox>li>.percent>span.iptText{
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 1.2rem;
+            height:0.8rem;
+            line-height: 0.8rem;
+            text-align: center;
+            font-size: 0.28rem;
+            color: #666;
+        }
+        .optionBox>li>.percent>span>input{
+            border: solid 1px #b0bcb0;
+            width: 1.2rem;
+            margin-right: 0.05rem;
+            height: 0.8rem;
+            line-height: 0.8rem;
+            padding: 0 0.2rem;
+            outline: none;
+            font-size: 0.28rem;
+            color:#666;
+        }
+        .optionBox>li>.percent>span>i{
+            height: 0.8rem;
+            line-height: 0.8rem;
+            margin-left:0.1rem;
+            font-size: 0.28rem;
+            color:#666;
+            background: none;
+        }
+
+
+
+        .optionBox>li>div{
+            /*height: 0.8rem;*/
+            line-height: 0.8rem;
+            width: 4.6rem;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+
+        }
+        .optionBox>li>span, .optionBox>li>i{
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 1.2rem;
+            height:0.8rem;
+            line-height: 0.8rem;
+            text-align: center;
+            font-size: 0.28rem;
+            color: #666;
+        }
+         .optionBox>li>div>.boxI{
+             border:solid 1px #b0bcb0!important;
+             width: 1.2rem;
+             height:0.8rem;
+             line-height: 0.8rem;
+             text-align: center;
+             font-size: 0.28rem;
+             color: #666;
+             margin-bottom: 0;
+             padding: 0 0 0 0.1rem!important;
+             /*background: url("../../../image/plantDoc/more_down.png") no-repeat center center;
+             background-size: 0.35rem 0.2rem;*/
+         }
+         .optionBox>li>div>.boxI>option{
+             text-align: center;
+             border:solid 1px red;
+             width: 100%;
+             height:100%;
+         }
+         .optionBox>li>div>input{
+             border:solid 1px #b0bcb0;
+             height: 0.8rem;
+             line-height: 0.8rem;
+             padding:0 0.2rem;
+             outline: none;
+             width: 2.4rem;
+             font-size: 0.28rem;
+             color:#666;
+             margin-bottom: 0;
+         }
+         .optionBox>li>div>span{
+             height:0.8rem;
+             line-height: 0.8rem;
+             text-align: left;
+             font-size: 0.28rem;
+             color: #666;
+         }
+        .optionBox>li i{
+            background: url("../../../image/plantDoc/more_down.png") no-repeat center center;
+            background-size: 0.35rem 0.2rem;
+        }
+        .optionBox>li>textarea{
+            /*height: 2.2rem;*/
+            line-height: 0.4rem;
+            padding:0.2rem;
+            border: solid 1px #b0bcb0;
+            outline: none;
+            width: 4.6rem;
+            font-size: 0.28rem;
+            color:#666;
+            margin-bottom: 0;
+        }
+
+        .require{
+            background: url("../../../image/plantDoc/require.png") no-repeat left 0.28rem;
+            background-size: 0.16rem 0.16rem;
+        }
+        /*#percentBox{
+          margin-bottom: 0;
+        }*/
+    </style>
+</head>
+<body>
+    <ul class="optionBox">
+        <li class="require">
+            <lable>日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期:</lable>
+            <input type="text" id="dateStr" name="date" data-toast="请选择本次使用日期" placeholder="请选择本次使用日期" value="" readonly="true">
+            <i></i>
+        </li>
+        <li class="require">
+            <lable>种&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类:</lable>
+            <!-- <input type="text" id="pharmacy" name="pharmacy" placeholder="请选择种类" value="" readonly="true"> -->
+            <select class="option" data-toast="请选择本次使用种类" name="kindId" id="kindId">
+
+            </select>
+            <i></i>
+        </li>
+        <li id="percentBox">
+            <lable>含量成分:</lable>
+            <textarea name="content" id="content" rows="4" cols="80" data-toast="" placeholder="请输入农药含量成分"></textarea>
+        </li>
+        <li class="require">
+            <lable>品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌:</lable>
+            <textarea name="brand" id="brand" rows="2" cols="80" data-toast="请输入农药品牌" placeholder="请输入农药品牌"></textarea>
+            <!-- <input type="text" name="farmArea" placeholder="请输入农药品牌" value=""> -->
+
+        </li>
+        <li class="require">
+            <lable>使用方法:</lable>
+            <select class="option" data-toast="请选择农药使用方法" name="methodId" id="methodId">
+
+            </select>
+            <i></i>
+        </li>
+        <li class="require">
+            <lable>防治对象:</lable>
+            <textarea name="preventionObject" id="preventionObject" rows="4" cols="80" data-toast="请输入农药防治对象" placeholder="请输入农药防治对象"></textarea>
+            <!-- <input type="text" name="farmArea" placeholder="请输入农药防治对象" value=""> -->
+        </li>
+        <li class="require">
+            <lable>用药面积:</lable>
+            <input type="number" id="area" name="area" data-toast="请输入农药使用亩数" placeholder="请输入农药使用亩数" value="">
+            <span>亩</span>
+        </li>
+        <li class="require">
+            <lable>本次用量:</lable>
+            <div>
+                <input type="number" id="dosage" name="dosage" data-toast="请输入本次用量" placeholder="请输入本次用量" value="">
+                <span>单位：</span>
+                <select class="boxI" data-toast="请输入用量单位" name="dosageUnitId" id="dosageUnitId"></select>
+            </div>
+        </li>
+        <li>
+            <lable>单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价:</lable>
+            <div>
+                <input type="number" id="price" name="price" data-toast="" placeholder="请输入本次单价" value="">
+                <span>单位：</span>
+                <select class="boxI" data-toast="" name="priceUnitId" id="priceUnitId"></select>
+            </div>
+        </li>
+        <li class="require">
+            <lable>花&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费:</lable>
+            <input type="number" id="expenditure" name="expenditure" data-toast="请输入本次农药花费" placeholder="请输入本次农药花费" value="">
+            <span>元</span>
+        </li>
+        <li>
+            <lable>下次服务日:</lable>
+            <input type="text" id="nextTimeStr" name="nextTime" data-toast="" placeholder="请选择下次预计服务日期" value="" readonly="true">
+        </li>
+
+
+    </ul>
+
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+<script type="text/javascript" src="../../../script/common/mui.min.js"></script>
+<script type="text/javascript" src="../../../script/common/mui.picker.min.js"></script>
+<script type="text/javascript" src="../../../script/common/emptyFrm.js"></script>
+<script type="text/javascript">
+    var changeFlag = false;
+    var id = null;
+    var dtpicker = null;
+    apiready = function(){
+        api.parseTapmode();
+        var winHeight = $(window).height(); //获取当前页面高度
+
+        mui.init();//创建日期插件
+        dtpicker = new mui.DtPicker({
+            type: 'date', //设置日历初始视图模式
+            labels: ['年', '月', '日'] //设置默认标签区域提示语
+        });
+        //日期选择
+        getDate();
+        //获取种类列表
+        getOptionList("kindId", "pharmacy", "请选择本次使用种类");
+        //获取使用方法列表
+        getOptionList("methodId", "pharmacy-method", "请选择农药使用方法");
+        //获取单位列表
+        getOptionList("dosageUnitId", "pharmacy-dosage-unit", "请选择");
+
+        getOptionList("priceUnitId", "pharmacy-price-unit", "请选择");
+
+        id = api.pageParam.id;//alert(id)
+        if (id != undefined && id != null && id != "") {
+            setTimeout(function(){
+                //数据回显
+                dataShow();
+                //角色
+                var plantBaseRole = api.pageParam.plantBaseRole;
+                var appUserId = api.pageParam.appUserId;
+
+                if(plantBaseRole != appUserId){
+                    $("select, input, textarea").attr("disabled","disabled");
+                    dtpicker.dispose();
+                };
+            },0)
+        };
+
+        //监听输入框，动态赋值总价
+        changeInputNow("dosage", "price", "expenditure");
+
+        //各种输入框监听
+        //正则
+        //var reg = /^(0(?!\.{1}0{1,2}$)(\.[0-9]{1,2})?|[1-9][0-9]{0,1}(\.{1}[0-9]{1,2})?)$/;
+        var reg = /^[1-9][0-9]{0,1}([\.]{0,1}[0-9]{0,2})$/;
+        var reg2 = /^[1-9][0-9]{0,3}([\.]{0,1}[0-9]{0,2})$/;
+        var reg3 = /^[1-9][0-9]{0,5}([\.]{0,1}[0-9]{0,2})$/;
+        var regTitle = "请输入正确数值";
+        addEventInput("content", 50, reg, regTitle);//含量
+        addEventInput("brand", 20, reg, regTitle);//品牌
+        addEventInput("preventionObject", 50, reg, regTitle);//防治对象
+        addEventInput("area", "", reg3, regTitle);//用药面积
+        addEventInput("dosage", "", reg3, regTitle);//本次用量
+        addEventInput("price", "", reg3, regTitle);//单价
+        addEventInput("expenditure", "", reg3, regTitle);//花费
+
+    };
+
+    //数据回显
+    function dataShow(){
+        if (id == null) {
+            return;
+        };
+        pds.ajaxUpload({
+            url: "/pharmacyMessage/selectById",
+            type: "GET",
+            progress: false,
+            data: {
+                id : id
+            },
+            success: function(e){
+                //alert(JSON.stringify(e));
+                var data = e.data;
+                if (data != "" && data != {} && data != null) {
+                    $.each(data, function(key, value){
+                        if (value != "" && value != null) {
+                            $("#"+key).val(value)
+                        };
+                    })
+                }
+            }
+        })
+
+    }
+
+    //保存提交
+    function dataUp(){
+        var upFlag = (function(){
+            var flag = false;
+            $(".require").find("select, input, textarea").each(function(){
+                var val = $(this).val();
+                if (val == "") {
+                    flag = true;
+                    var toast = $(this).attr("data-toast") + "！";
+                    api.toast({
+                        msg: toast,
+                        duration: 2000,
+                        location: 'middle'
+                    });
+                    return false
+                }
+            });
+            return flag
+        })();
+        if (upFlag) {
+            return;
+        };
+        api.confirm({
+            title: '提示！',
+            msg: '确认保存？',
+            buttons: ['确定', '取消']
+        }, function(ret, err){
+            if( ret ){
+                var btnIndex = ret.buttonIndex;
+                if (btnIndex == 1) {
+
+                  //登录埋点
+                  var winName = api.pageParam.winName;
+                  var eventId = "", pageId = "";
+                  if (winName == "openFertilizerInfo_win") {//修改
+                      pageId = "page_edit_pesticide_information_service";
+                      eventId = "button_edit_pesticide_information_page_edit_pesticide_information_service"
+                  }else{//添加
+                      pageId = "page_pesticide_information_service";
+                      eventId = "button_add_pesticide_information_page_pesticide_information_service"
+                  };
+                  var buriedPoint = pds.buriedPoint();
+                  buriedPoint.pageId = pageId;
+                  buriedPoint.eventId = eventId;
+                  pds.ajaxSubmit({
+                      url:"app/buried_point/save",
+                      progress: false,
+                      data:{"point":buriedPoint},
+                      success:function(v){
+                          //alert(JSON.stringify(v))
+                      }
+                  });
+
+                    var ajaxData = (function(){
+                        var dataObj = {};
+                        $("input, textarea, select").each(function(){
+                            var value = $(this).val();
+                            var id = $(this).attr("id");
+                            var valueKey = $(this).attr("name");
+                            if (id == "priceUnitId" && $("#price").val() == "") {
+                               return true;
+                            };
+                            if (value != "") {
+                                dataObj[valueKey] = value;
+                            };
+                        });
+
+                        // var id = api.pageParam.id;
+                        if (id != undefined && id != "") {
+                            dataObj.id = id;
+                        };
+                        //作物Id;
+                        var cropId = api.pageParam.cropId;//alert(cropId)
+                        dataObj.cropId = cropId;
+                        return dataObj;
+                    })();
+                    //alert(JSON.stringify(ajaxData));
+                    pds.ajaxUpload({
+                        url: "/pharmacyMessage/saveOrUpdate",
+                        body: ajaxData,
+                        success: function(e){
+                            if (e.msg == "OK") {
+                                api.execScript({
+                                    name: 'openPesticideInfo_win',
+                                    frameName: 'openPesticideInfo_frm',
+                                    script: 'window.location.reload();'
+                                });
+                                api.execScript({
+                                    name: 'plantDocInfo_win',
+                                    frameName: 'plantDocInfo_frm',
+                                    script: 'dataInit();'
+                                });
+                                api.toast({
+                                    msg: '保存成功！',
+                                    duration: 2000,
+                                    location: 'middle'
+                                });
+                                setTimeout(function(){
+                                    api.closeWin();
+                                },1000);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+
+    //字典接口查询所需数据
+    var unit1Flag = false, unit2Flag = false;
+    function getOptionList(obj, type, title){
+        pds.ajaxUpload({
+            url: "/dict/list",
+            type:"get",
+            progress: false,
+            data:{
+                type : type
+            },
+            success: function(e){
+                //alert(JSON.stringify(e.data));
+                var data = e.data;
+                if (data != [] && data != null) {
+                    var listStr = '<option value ="">'+ title +'</option>';
+                    //var listStr = "";
+                    for (var i = 0; i < data.length; i++) {
+                        var listObj = data[i];
+                        if (listObj.id == null || listObj.name == null || listObj.id == "" || listObj.name == "") {
+                            continue;
+                        }
+                        console.log("***************"+listObj.id)
+                        listStr += '<option value="'+ listObj.id +'">'+ listObj.name +'</option>'
+                    };
+                    $("#"+obj).html(listStr).change(function(){//监听输入框是否有修改
+                        changeFlag = true;
+                    });
+                    if (obj == "dosageUnitId") {//用量单位
+                        unit1Flag = true;
+                    };
+                    if (obj == "priceUnitId") {//单价单位
+                        unit2Flag = true;
+                    };
+                    if (unit2Flag && unit1Flag) {//两个条件同时成立（下拉区域不为空），方可保证联动触发
+                        $('#dosageUnitId').change(function(){
+                            var index_ = $('#dosageUnitId')[0].selectedIndex;
+                            $('#priceUnitId').val("");
+                            $('#priceUnitId')[0].selectedIndex = index_;
+                        });
+                        $('#priceUnitId').change(function(){
+                          var index_ = $('#priceUnitId')[0].selectedIndex;
+                          $('#dosageUnitId').val("");
+                          $('#dosageUnitId')[0].selectedIndex = index_;
+                        })
+                    };
+
+                }
+            }
+        })
+    };
+
+    //监听输入框
+    function addEventInput(obj, length, reg, regTitle){
+        //面积输入
+        $("#"+obj).bind('input porpertychange',function(){
+              changeFlag = true;
+              var str = $(this).val();
+              if (length != "" && str != "") {
+                  if (str.length > length) {
+                      api.toast({
+                          msg: '最多可输入'+ length +'字',
+                          duration: 2000,
+                          location: 'middle'
+                      });
+                      $(this).val(str.slice(0,length))
+                  };
+                  return;
+              };
+              // var reg=/^[1-9][0-9]{0,5}[\.]{0,1}[0-9]{0,2}$/;
+              if(str != ""){
+                  var strArr = str.split(".");console.log(strArr.length)
+                  if(strArr.length > 2 || !reg.test(str)){
+                      api.toast({
+                          msg: regTitle,
+                          duration: 2000,
+                          location: 'middle'
+                      });
+                      $(this).val("");
+                  };
+                  if (obj == "area") {
+                      var allArea = parseFloat(api.pageParam.allArea);
+                      if (parseFloat(str) > allArea) {
+                          api.toast({
+                              msg: '当前作物种植面积为'+allArea+'亩，请确认！',
+                              duration: 2000,
+                              location: 'middle'
+                          });
+                          $(this).val("");
+
+                      }
+                  }
+
+              }
+        });
+    };
+
+    //页面数据变更
+    function pageChange(){
+        if (changeFlag) {
+            api.execScript({
+                name: 'openPesticideInfo_change_win',
+                script: 'back();'
+            });
+        }else{
+            api.closeWin();
+        }
+    }
+
+    //点击日期
+    //点击日期
+		function getDate(){
+
+      dtpicker.hide();
+			//开启完成时间日期插件startDate
+			var myDate = new Date();
+			var year = myDate.getFullYear();
+      var month = myDate.getMonth() + 1;
+			if (month < 10) {
+				  month = '0' + month;
+			};
+			var day = myDate.getDate();
+			if (day < 10) {
+		      day = '0' + day;
+		  };
+			var currentDate =  year + '-' + month + '-' + day;
+      var today = new Date(getNowFormatDate());
+			$("#dateStr").off("click").on("click",function(){
+					var texts = $(this);
+			    dtpicker.show(function (rs) {
+			        //console.log('rs++'+ JSON.stringify( rs ) );
+							var oDate1 = new Date(rs.text);
+						  var oDate2 = $("#nextTimeStr").val();
+
+              if (oDate1.getTime() <= today.getTime()) {
+                  texts.val(rs.y.text + '-' + rs.m.text + '-' + rs.d.text)
+                  dtpicker.hide();
+              }else{
+                  api.toast({
+                      msg: '日期选择只能是今日之前的日期！',
+                      duration: 2000,
+                      location: 'middle'
+                  });
+
+              }
+
+
+					})
+
+			});
+			//开始开始时间插件
+			$("#nextTimeStr").off("click").on("click",function(){
+          var texts = $(this);
+          dtpicker.show(function (rs) {
+              //console.log('rs++'+ JSON.stringify( rs ) );
+              var dateStr = rs.y.text + '-' + rs.m.text + '-' + rs.d.text;
+              var oDate1 = $("#dateStr").val();
+              var dateStr_ = new Date(dateStr);
+
+              if(dateStr_.getTime() >= today.getTime()+2*24*60*60*1000){
+                  texts.val(dateStr);
+                  dtpicker.hide();
+              }else{
+                  api.toast({
+                      msg: '下次服务日至少是距今两天后！',
+                      duration: 2000,
+                      location: 'middle'
+                  });
+                  texts.val("");
+              }
+
+          })
+      });
+		};
+
+    //动态赋值input框,
+    //参数ipt1——输入框1；ipt2——输入框2；ipt——动态赋值框；
+    function changeInputNow(ipt1, ipt2, ipt){
+        $("#"+ipt1).bind('input porpertychange',function(){
+            var val1 = $(this).val();
+            var val2 = $("#"+ipt2).val();
+            if (val1 != "" && val2 != "") {
+                $("#"+ipt).val((val1*val2).toFixed(2))
+            }else{
+                $("#"+ipt).val("");
+            }
+        });
+        $("#"+ipt2).bind('input porpertychange',function(){
+            var val1 = $("#"+ipt1).val();
+            var val2 = $(this).val();
+            if (val1 != "" && val2 != "") {
+                $("#"+ipt).val((val1*val2).toFixed(2))
+            }else{
+                $("#"+ipt).val("");
+            }
+        });
+    }
+
+    //获取今天时间戳
+    function getNowFormatDate() {
+		    var date = new Date();
+		    var seperator1 = "-";
+		    var seperator2 = ":";
+		    var month = date.getMonth() + 1;
+		    var strDate = date.getDate();
+		    if (month >= 1 && month <= 9) {
+		        month = "0" + month;
+		    }
+		    if (strDate >= 0 && strDate <= 9) {
+		        strDate = "0" + strDate;
+		    }
+		    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+		    return currentdate;
+		}
+</script>
+</html>

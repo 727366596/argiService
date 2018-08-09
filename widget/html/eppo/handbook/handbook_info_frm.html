@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>操作手册</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/iscroll-style_.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+    <style>
+        html, body{
+            width: 100%;height:100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: #f8f8f8;
+        }
+        body{
+            padding: 0.4rem 0.3rem;
+        }
+        .wrap, #mainList, section{
+            width: 100%;
+            /*padding: 0.2rem;*/
+        }
+        section{
+            padding: 0 0.3rem;
+            background: #fff;
+            margin-bottom: 0.2rem;
+            padding-bottom: 0.4rem;
+            position: relative;
+        }
+        section>.title{
+            font-size: 0.34rem;
+            color: #333;
+            height: 0.9rem;
+            line-height: 0.9rem;
+            text-align: left;
+            font-weight: 500;
+            margin-bottom: 0.15rem;
+            border-bottom: dashed 1px #00c558;
+        }
+        section>p{
+            font-size: 0.28rem;
+            color: #666;
+            line-height: 0.45rem;
+            padding: 0 0.1rem;
+            text-indent: 2em;
+        }
+        section>.pin{
+            position: absolute;
+            left: -0.1rem;
+            top: -0.1rem;
+            width: 0.55rem;
+            height: 0.55rem;
+            background: url("../../../image/handBook/pin.png") no-repeat center center;
+            background-size: 100% 100%;
+        }
+        #mainList>li{
+            width: 100%;
+            margin-top:0.4rem;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: center;
+            justify-content: center;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        #mainList>li .list_title{
+            width: 100%;
+            height:0.7rem;
+            line-height: 0.7rem;
+            font-size: 0.3rem;
+            color: #333;
+            text-align: center;
+            font-weight: 600;
+            padding-left: 0.1rem;
+        }
+
+        #mainList>li .list_box img{
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <section>
+            <div class="title">
+                植保档案
+            </div>
+            <p>高效、快速的记录植保档案，有效的管理植保档案实现植保公司在服务过程中的客户管理、植保过程管理；实现植保档案基本信息、土壤与播种信息、施肥信息、用药信息以及植保照片的添加管理。</p>
+            <div class="pin">
+
+            </div>
+        </section>
+        <ul id="mainList">
+           <li>
+                <div class="list_title">
+                      一、添加植保客户
+                </div>
+                <div class="list_box" style="width:5.3rem;height:6.4rem;margin-right:-0.4rem;">
+                    <img src="../../../image/handBook/book1.png" alt="">
+                </div>
+           </li>
+
+           <li>
+                <div class="list_title">
+                      二、添加基地
+                </div>
+                <div class="list_box" style="width:5.3rem;height:6.4rem;margin-right:-0.4rem;">
+                    <img src="../../../image/handBook/book2.png" alt="">
+                </div>
+           </li>
+
+           <li>
+                <div class="list_title">
+                      三、添加种植作物/修改客户信息
+                </div>
+                <div class="list_box" style="width:5.3rem;height:7.4rem;margin-right:-0.4rem;">
+                    <img src="../../../image/handBook/book3.png" alt="">
+                </div>
+           </li>
+
+           <li>
+                <div class="list_title">
+                      四、建植保档案
+                </div>
+                <div class="list_box" style="width:5.7rem;height:8.4rem;margin-right:0.7rem;">
+                      <img src="../../../image/handBook/book4.png" alt="">
+                </div>
+           </li>
+
+        </ul>
+        <!-- <div class="more">
+            <i class="pull_icon"></i>
+            <span>上拉加载更多...</span>
+        </div> -->
+    </div>
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+<script type="text/javascript">
+    apiready = function(){
+        api.parseTapmode();
+
+    };
+
+
+
+</script>
+</html>

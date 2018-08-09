@@ -1,0 +1,616 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>档案管理</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/iscroll-style_.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+    <style type="text/css">
+        html, body{
+            width: 100%;
+
+            background-color: #f2f2f2;
+        }
+        .contentMain{
+            width: 100%;
+            min-height: 6.9rem;
+            padding: 0.2rem;
+            background: url("./../../../image/plantDoc/doc-bc.png") no-repeat center center;
+            background-size: 100% 100%;
+            position: relative;
+        }
+        .contentMain>.connect{
+            position: absolute;
+            top:0.65rem;
+            width: 0.25rem;
+            height:0.85rem;
+            background: url("../../../image/plantDoc/connect.png") no-repeat center center;
+            background-size: 100% 100%;
+        }
+        .contentMain>.connect-left{
+            left: 0.4rem;
+        }
+        .contentMain>.connect-right{
+            right: 0.4rem;
+        }
+
+        .mainTitle{
+            width: 100%;height: 0.78rem;background-color: #54565c;
+            border-radius: 0.1rem 0.1rem 0 0;
+            line-height: 0.78rem;text-align: center;
+            padding: 0 0.6rem;
+            margin: 0 auto;
+        }
+        .mainTitle>p{
+            /*display: inline-block;
+            vertical-align: middle;*/
+            width: 100%;height: 100%;
+            line-height: 0.78rem;text-align: center;
+            font-size: 0.3rem;color: #fff;
+            white-space: nowrap;
+            overflow-y: hidden;
+            overflow-x: auto;
+        }
+
+        .mainContent{
+            width: 100%;min-height: 5.38rem;background-color: rgba(256,256,256,0.85);
+            border-radius:0 0 0.1rem 0.1rem;
+            margin: 0.15rem auto;
+        }
+        .mainContent-list{
+            width: 100%;
+            padding: 0.35rem 0.65rem 0 0.65rem;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        .mainContent-list>p{
+            width: 100%;
+            line-height: 0.38rem;
+            font-size: 0.26rem;
+            margin-bottom: 0.32rem;
+            color: #666;
+            text-align: left;
+        }
+        .mainContent-list>p:last-of-type{
+            margin-bottom: 0;
+        }
+        .mainContent-option{
+
+            width: 100%;
+            height: 1.0rem;
+            padding: 0 0.25rem;
+            line-height: 1.0rem;
+            text-align: right;
+
+        }
+        .mainContent-option>span.mainContent-option-text{
+            float: right;
+            font-size: 0.26rem;
+            color: #54565c;
+            height: 100%;
+            padding: 0 0.1rem;
+            padding-right: 0.45rem;
+            border:solid 1px rgba(0,0,0,0);
+            background: url("../../../image/plantDoc/option.png") no-repeat right center;
+            background-size: 0.3rem 0.3rem;
+            margin-right: 0.2rem;
+            display: none;
+        }
+        .mainContent-option>span.mainContent-option-icon{
+            width: 0.3rem;height: 100%;
+            background: url("../../../image/plantDoc/option.png") no-repeat center center;
+            background-size: 0.3rem 0.3rem;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+
+        .contentList{
+            width: 100%;
+            /*padding-bottom: 2.0rem;*/
+            background-color: #f2f2f2;
+            /*display: none;*/
+        }
+        .contentList-main{
+            width: 100%;
+            margin-bottom: 0.35rem;
+        }
+        .contentList-main:last-child{
+            margin-bottom: 0;
+        }
+        .contentList-main-title{
+            width: 100%;
+            height:0.82rem;
+            padding-left: 0.2rem;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: flex-start;
+            justify-content: flex-start;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        .contentList-main-title>span{
+            height:0.44rem;
+            line-height: 0.44rem;
+            width: 1.2rem;
+            text-align: center;
+            font-size: 0.24rem;
+            color: #fff;
+            border-radius: 0.22rem;
+            background-color: #77b863;
+        }
+        .contentList-main-body{
+            width: 100%;
+        }
+        .contentList-main-body>li{
+            width: 100%;
+            height:1.82rem;
+            padding: 0 0.5rem 0 0.2rem;
+            background-image: url("../../../image/plantDoc/info.png");
+            background-size: 0.18rem 0.32rem;
+            background-position: 97.5% center;
+            background-repeat: no-repeat;
+            background-color: #f2f2f2;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        .contentList-main-body>li:nth-child(odd){
+            background-color: #fff;
+        }
+        .contentList-main-body>li>div{
+            height:100%;
+            padding: 0.35rem 0;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        .contentList-main-body>li>div.contentList-main-body-left{
+            width: 3.5rem;
+        }
+        .contentList-main-body>li>div.contentList-main-body-right{
+            width: 2.8rem;
+        }
+        .contentList-main-body>li>div>p{
+            font-size: 0.26rem;
+            width: 100%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .contentEmpty{
+            width: 100%;
+            display: none;
+        }
+        .contentEmpty-icon{
+            width: 1.64rem;
+            height:1.64rem;
+            border:solid 1px #d0d0d0;
+            border-radius: 50%;
+            background: url("../../../image/plantDoc/empty.png") no-repeat center center;
+            background-size: 50% 50%;
+            margin: 1.0rem auto;
+            margin-bottom: 0.25rem;
+        }
+        .contentEmpty-text{
+            font-size: 0.26rem;
+            color: #666;
+            text-align: center;
+            margin: 0.2rem auto;
+        }
+        .contentEmpty-btn{
+            height:0.8rem;
+            width: 3.88rem;
+            border-radius: 0.4rem;
+            line-height: 0.8rem;
+            text-align: center;
+            background-color: #77b863;
+            font-size: 0.3rem;
+            color: #fff;
+            margin: 0.4rem auto;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <section class="contentMain">
+        <div class="connect connect-left"></div>
+        <div class="connect connect-right"></div>
+        <div class="mainTitle">
+              <!-- <p>寿光县刘村蔬菜大棚种植中寿光县刘村蔬菜大棚种植中寿光县刘村蔬菜大棚种植中寿光县刘村蔬菜大棚种植中寿光县刘村蔬菜大棚种植中寿光县刘村蔬菜大棚种植中</p> -->
+        </div>
+        <div class="mainContent">
+              <div class="mainContent-list">
+                  <!-- <p>山东省寿</p>
+                  <p>地址：山东省寿光市</p>
+                  <p>负责人：王十二</p>
+                  <p>负责人电话：15212218732</p>
+                  <p>基地面积：2000亩</p>
+                  <p>技术经理：王十三  15212218732</p> -->
+              </div>
+              <div class="mainContent-option">
+                  <span class="mainContent-option-text" onclick="openChangeInfo();">修改</span>
+                  <!-- <span class="mainContent-option-icon"></span> -->
+              </div>
+        </div>
+    </section>
+    <section class="contentList">
+        <!-- <div class="contentList-main">
+            <div class="contentList-main-title">
+                <span>2018年</span>
+            </div>
+            <ul class="contentList-main-body">
+                <li>
+                    <div class="contentList-main-body-left">
+                        <p>马铃薯马鞍书马铃薯马鞍书马铃薯马鞍书马铃薯马鞍书马铃薯马鞍书</p>
+                        <p>面积：1000亩</p>
+                    </div>
+                    <div class="contentList-main-body-right">
+                        <p>荷兰7号</p>
+                        <p>开始种植：2018-02-12</p>
+                    </div>
+                </li>
+            </ul>
+        </div> -->
+
+    </section>
+    <div class="more">
+        <i class="pull_icon"></i>
+        <span>上拉加载更多...</span>
+    </div>
+
+    <section class="contentEmpty">
+        <div class="contentEmpty-icon"></div>
+        <div class="contentEmpty-text">还没有植保档案，等你添加！</div>
+        <div class="contentEmpty-btn">添加植保档案</div>
+    </section>
+    <!-- <div id="body_totop_btn">
+        返回顶部
+    </div> -->
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+<script type="text/javascript" src="../../../script/common/emptyFrm.js"></script>
+<script type="text/javascript">
+    var page = 1, pageSize = 10, total = null;
+    var baseId = null, base = null;
+    var plantBaseRole = null, appUserId = null;
+    apiready = function(){
+        api.parseTapmode();
+
+        //参数传值
+        baseId = api.pageParam.baseInfo.farmLandId;
+        plantBaseRole = api.pageParam.plantBaseRole;//alert(plantBaseRole)
+        //头部数据
+        baseInfo();
+
+        setTimeout(function(){
+            //获取分页初始数据
+            getPageData(baseId, 1, pageSize);
+        },0)
+    };
+
+    //头部基础数据
+    function baseInfo(){
+        if (baseId == null) {
+            return;
+        };
+
+        pds.ajaxUpload({
+            url: "/base/getBaseById",
+            data: {
+                baseId: baseId
+            },
+            success: function(e){
+                base = e.data;
+                //角色判断
+                appUserId = base.zbCustomer.appUserId;//alert(plantBaseRole+"**********"+appUserId)
+                if (plantBaseRole == appUserId) {
+                    $(".mainContent-option-text").show();//非管理员显示修改按钮
+                    $(".contentEmpty-btn").show().bind("touchend", function(){
+                        addPlantDoc();
+                    });
+                }else{
+                    $(".contentEmpty-text").text("您当前没有可查看的植保档案！")
+                };
+
+                if (base != {} && base != null && base != "") {
+                    $(".mainTitle").html('<p>'+ base.custName +'</p>');//客户名称
+                    var city_ = "";
+                    if (base.province == base.city) {
+                        city_ = base.city
+                    }else{
+                        city_ = base.province + base.city;
+                    };
+                    var technicalManager = (base.technicalManager == "" || base.technicalManager == null) ? "" : '<p>技术经理：'+ base.technicalManager +'</p>';
+                    var technicalManagerPhone = (base.technicalManagerPhone == "" || base.technicalManagerPhone == null) ? "" : '<p>技术经理电话：'+ base.technicalManagerPhone +'</p>';
+
+                    var infoStr = '<p>'+ base.name +'</p>'+
+                                  '<p>地址：'+ city_ + base.county +'</p>'+
+                                  '<p>基地面积：'+ base.area +'亩</p>'+
+                                  '<p>负责人：'+ base.principal +'</p>'+
+                                  '<p>负责人电话：'+ base.principalPhone +'</p>'+
+                                    technicalManager +
+                                    technicalManagerPhone;
+                    $(".mainContent-list").html(infoStr);
+                }
+            },
+            error: function(e){
+                api.alert({msg: e.message});
+            }
+        })
+
+    }
+
+    //获取档案列表
+    var map = {}, dest = [];
+    function getPageData(baseId, page, pageSize){
+        if (page == 1 || page == "1") {
+            map = {};
+            dest = [];
+        };
+        $('.more span').text('加载中...');
+        $('.pull_icon').addClass('loading');
+        pds.ajaxUpload({
+            url:"/archives/getArchives",
+            type:"post",
+            data:{
+                "baseId" : baseId,
+                "page" : page,
+                "pageSize" : pageSize
+            },
+            success: function(e){
+                var listData = e.data.rows;
+                if (listData != [] && listData!= "" && listData != null && listData != undefined) {
+                    $(".more").show();
+                    $(".contentEmpty").hide();
+                    $('.more span').text('上拉加载更多...');
+                    $('.pull_icon').removeClass('loading');
+                    //数组按年份分类处理
+
+
+                    for(var i = 0; i < listData.length; i++){
+                        var ai = listData[i];
+                        if(!map[ai.startYear]){
+                            dest.push({
+                                startYear: ai.startYear,//按年分类
+                                data: [ai]
+                            });
+                            map[ai.startYear] = ai;
+                        }else{
+                            for(var j = 0; j < dest.length; j++){
+                                var dj = dest[j];
+                                if(dj.startYear == ai.startYear){
+                                    dj.data.push(ai);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    // console.log("哈哈哈哈哈哈哈************"+JSON.stringify(dest.length));
+                    // console.log("哈哈哈哈哈哈哈************"+JSON.stringify(dest));
+                    setTimeout(function(){
+                        var listBoxStr = "";
+                        $.each(dest, function(l, item){
+                            if (item.data.length > 0) {
+                                var listDataArr = item.data;
+                                var listStr = (function(){
+                                    var listStr_ = "";
+                                    for (var k = 0; k < listDataArr.length; k++) {
+                                        var plantId = listDataArr[k].id,
+                                            plantCropObj = listDataArr[k].plantCrop,
+                                            plantVariety = listDataArr[k].plantVariety;
+                                        if (plantCropObj && plantVariety && plantId) {
+                                            var time = (function(){
+                                                var startTimeArr = (listDataArr[k].startTimeStr.split(" "))[0].split("-");
+                                                var startTimeStr = startTimeArr[0] + "." + startTimeArr[1];
+                                                var endTimeArr = (listDataArr[k].endTimeStr.split(" "))[0].split("-");
+                                                var endTimeStr = endTimeArr[0] + "." + endTimeArr[1];
+                                                return startTimeStr + "-" + endTimeStr;
+                                            })();
+                                            listStr_ += '<li data-time="'+ time +'" data-grow="'+ listDataArr[k].growthPeriod +'" data-area="'+ listDataArr[k].plantArea +'" data-type="'+ plantVariety.catName +'" data-plant="'+ plantCropObj.catName +'" data-id="'+ plantId +'">'+
+                                                          '<div class="contentList-main-body-left">'+
+                                                              '<p>'+ plantCropObj.catName +'</p>'+
+                                                              '<p>面积：'+ listDataArr[k].plantArea +'亩</p>'+
+                                                          '</div>'+
+                                                          '<div class="contentList-main-body-right">'+
+                                                              '<p>'+ plantVariety.catName +'</p>'+
+                                                              '<p>开始种植：'+ (listDataArr[k].startTimeStr).split(" ")[0] +'</p>'+
+                                                          '</div>'+
+                                                       '</li>';
+                                        }
+                                    };
+                                    return listStr_
+                                })();
+                                if (listStr != "") {
+                                    listBoxStr += '<div class="contentList-main">'+
+                                                      '<div class="contentList-main-title">'+
+                                                          '<span>'+ item.startYear +'年</span>'+
+                                                      '</div>'+
+                                                      '<ul class="contentList-main-body">'+
+                                                          listStr +
+                                                      '</ul>'+
+                                                  '</div>';
+                                };
+                            }
+                        });
+
+
+                        if (page == "1" || page == 1) {
+                            $(".contentList").html("");
+                        };
+                        //拼入页面//显示点击
+                        setTimeout(function(){
+                            // //判断字符串是否为空
+                            // if (listBoxStr == "") {
+                            //     $(".more").hide();
+                            //     $(".contentEmpty").show();
+                            //     return;
+                            // };
+                            $(".contentList").html(listBoxStr).off("click").on("click", "li", function(){
+                                //alert($(this).attr("data-id"));
+                                //登录埋点
+                                var buriedPoint = pds.buriedPoint();
+                                buriedPoint.pageId = 'page_archive_management_service';
+                                buriedPoint.eventId = 'button_view_plant_protection_archive_page_archive_management_service';
+                                pds.ajaxSubmit({
+                                    url:"app/buried_point/save",
+                                    progress: false,
+                                    data:{"point":buriedPoint},
+                                    success:function(v){
+                                        //alert(JSON.stringify(v))
+                                    }
+                                });
+
+                                var cropId = $(this).attr("data-id");
+                                var plant = $(this).attr("data-plant");
+                                var type = $(this).attr("data-type");
+                                var area = $(this).attr("data-area");
+                                var grow = $(this).attr("data-grow");
+                                var time = $(this).attr("data-time");
+                                api.openWin({
+                                    name: 'plantDocInfo_win',
+                                    url: './plantDocInfo_win.html',
+                                    pageParam: {
+                                        cropId: cropId,
+                                        base: base,
+                                        plantBaseRole: plantBaseRole,
+                                        appUserId: appUserId,
+                                        topData: {
+                                            plant : plant,
+                                            type : type,
+                                            area : area,
+                                            grow : grow,
+                                            time : time
+                                        }
+                                    }
+                                });
+                            })
+                        },0)
+                        //显示右上按钮——非管理员可见按钮
+                        if (plantBaseRole == appUserId) {
+                            api.execScript({
+                                name: 'plantDomHome_win',
+                                script: 'bindAdd();'
+                            });
+                        };
+                        //判断是否继续加载
+                        var total = e.data.total;
+                        if(page*pageSize < total){
+                            api.addEventListener({
+                                name:'scrolltobottom',
+                            }, function(ret, err){
+                                page++;
+                                // alert(page);
+                                setTimeout(function(){
+                                  getPageData(baseId,page,pageSize);
+                                },300)
+                            });
+                        }else{
+                            $('.more span').text('暂无更多档案...');
+                            $('.pull_icon').removeClass('loading');
+                            api.removeEventListener({
+                                name: 'scrolltobottom'
+                            });
+                        };
+
+                    },0)
+                }else{
+                    if (dest.length == 0) {
+                        $(".more").hide();
+                        $(".contentEmpty").show();
+                    }
+                }
+            }
+        })
+    }
+
+    function openChangeInfo(){
+      //登录埋点
+      var buriedPoint = pds.buriedPoint();
+      buriedPoint.pageId = 'page_archive_management_service';
+      buriedPoint.eventId = 'button_modify_customer_information_page_archive_management_service';
+      pds.ajaxSubmit({
+          url:"app/buried_point/save",
+          progress: false,
+          data:{"point":buriedPoint},
+          success:function(v){
+              //alert(JSON.stringify(v))
+          }
+      });
+      api.openWin({
+          name: 'userInfoChange_win',
+          url: './userInfoChange_win.html',
+          pageParam: {
+              base: base
+          }
+      });
+    };
+
+    function addPlantDoc(){
+
+        api.execScript({
+            name: 'plantDomHome_win',
+            script: 'openAdd();'
+        });
+    }
+
+</script>
+</html>

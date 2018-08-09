@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>植保照片</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/header_ph.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+</head>
+<body>
+    <div id="header">
+        <div class="headerLeft" onclick="back()"></div>
+        <div class="headerCenter">
+            植保照片
+        </div>
+        <div class="headerRight"></div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript">
+    var picLength = false;
+    apiready = function(){
+        //适配iOS7+，Android4.4+状态栏沉浸式效果，详见config文档statusBarAppearance字段
+        var header = $api.byId('header');
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+        var plantBaseRole = api.pageParam.plantBaseRole;
+        var appUserId = api.pageParam.appUserId;
+
+        if (plantBaseRole == appUserId) {
+            $(".headerRight").text("删除").click(delPic)
+        }
+
+
+        api.openFrame({
+            name: 'openPlantPic_frm',
+            url: './openPlantPic_frm.html',
+            bounces: false,
+            pageParam: {
+                cropId : api.pageParam.cropId,
+                plantBaseRole: plantBaseRole,
+                appUserId: appUserId
+            },
+            rect: {
+                x: 0,
+                y: headerH,
+                w: 'auto',
+                h: 'auto'
+            }
+        });
+
+        //监听返回
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            back();
+        });
+    };
+
+    function picEmpty(){
+        picLength = true
+    };
+    function picOwn(){
+        picLength = false
+    };
+    //打开新增页面***************************************************
+    function delPic(){
+        api.execScript({
+            frameName: 'openPlantPic_frm',
+            script: 'picLength();'
+        });
+
+        setTimeout(function(){
+            if (picLength) {//照片为空
+                api.toast({
+                    msg: '暂无可删除的照片，请添加！',
+                    duration: 2000,
+                    location: 'middle'
+                });
+            }else{
+                $(".headerRight").toggleClass("clicked");
+                if($(".headerRight").hasClass("clicked")){
+                    $(".headerRight").text("取消");
+                }else{
+                    $(".headerRight").text("删除");
+                };
+                api.execScript({
+                    frameName: 'openPlantPic_frm',
+                    script: 'delPic();'
+                });
+            }
+
+        },100)
+
+    };
+
+    function delBtnInit(){
+        $(".headerRight").removeClass("clicked").text("删除");
+    }
+
+    function back(){
+        api.closeWin();
+        api.execScript({
+            name: 'plantDocInfo_win',
+      	    frameName: 'plantDocInfo_frm',
+      	    script: 'dataInit("'+ api.pageParam.cropId +'");'
+      	});
+    }
+</script>
+</html>

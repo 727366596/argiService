@@ -1,0 +1,416 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>档案管理</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/iscroll-style_.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+    <style>
+        html, body{
+            width: 100%;height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: #f2f2f2;
+            padding: 0.2rem;
+        }
+        .optionBox{
+            width: 100%;
+            background-color: #fff;
+            padding: 0.3rem 0.2rem;
+            padding-top: 0.6rem;
+        }
+        .optionBox>li{
+            position: relative;
+            width: 100%;
+            padding-left: 0.3rem;
+            margin-bottom: 0.5rem;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: start;
+            -webkit-align-items: start;
+            align-items: start;
+        }
+        .optionBox>li:first-of-type{
+            margin-bottom: 0.3rem;
+        }
+        .optionBox>li>label{
+            width: 1.8rem;height: 100%;
+            text-align: left;
+            font-size: 0.28rem;
+            color:#666;
+            margin-top: 0.15rem;
+        }
+        .optionBox>li>input{
+            height: 0.8rem;
+            line-height: 0.8rem;
+            padding:0 0.2rem;
+            border: solid 1px #b0bcb0;
+            outline: none;
+            width: 4.4rem;
+            font-size: 0.28rem;
+            color:#666;
+        }
+        .optionBox>li>textarea{
+            /*height: 2.2rem;*/
+            line-height: 0.4rem;
+            padding:0.2rem;
+            border: solid 1px #b0bcb0;
+            outline: none;
+            width: 4.4rem;
+            font-size: 0.28rem;
+            color:#666;
+            margin-bottom: 0;
+        }
+        .optionBox>li>p{
+            width: 4.4rem;
+            line-height: 0.45rem;
+            font-size: 0.28rem;
+            color:#666;
+
+        }
+
+        .optionBox>li>span, .optionBox>li>i{
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 1.2rem;
+            height:0.8rem;
+            line-height: 0.8rem;
+            text-align: center;
+            font-size: 0.28rem;
+            color: #666;
+        }
+        .optionBox>li>i{
+            background: url("../../../image/plantDoc/more_down.png") no-repeat center center;
+            background-size: 0.35rem 0.2rem;
+        }
+        #farmLocation, #farmArea{
+            padding-right: 1.2rem;
+        }
+
+        .require{
+            background: url("../../../image/plantDoc/require.png") no-repeat left 0.28rem;
+            background-size: 0.16rem 0.16rem;
+        }
+    </style>
+</head>
+<body>
+    <ul class="optionBox">
+        <li>
+            <label style="margin-top:0;">客户名称:</label>
+            <p id="customer"></p>
+        </li>
+        <li class="require">
+            <label>基地名称:</label>
+            <input type="text" id="farmName" data-toast="请输入基地名称！" placeholder="请输入基地名称" name="farmName" value="">
+        </li>
+        <li class="require">
+            <label>基地位置:</label>
+            <input type="text" id="farmLocation" name="farmLocation" data-toast="请选择基地地址！" placeholder="请选择基地地址"  value="" readonly="true" onclick="openCityList();">
+            <!-- <textarea  name="farmLocation" id="farmLocation" rows="2" cols="80" data-toast="请选择基地地址" placeholder="请选择基地地址" readonly="true"></textarea> -->
+            <i></i>
+        </li>
+        <li class="require">
+            <label>详细地址:</label>
+            <!-- <input type="text" id="farmAddress" name="farmAddress" value="" readonly="true"> -->
+            <textarea  name="farmAddress" id="farmAddress" rows="2" cols="80" data-toast="请输入详细地址！" placeholder="请输入详细地址"></textarea>
+
+        </li>
+        <li class="require">
+            <label>基地面积:</label>
+            <input type="number" id="farmArea" name="farmArea" data-toast="请输入基地面积！" placeholder="请输入基地面积" value="">
+            <span>亩</span>
+        </li>
+        <li class="require">
+            <label>负责人:</label>
+            <input type="text" id="farmCharge" name="farmCharge" data-toast="请输入负责人！" placeholder="请输入负责人"  value="">
+        </li>
+        <li class="require">
+            <label>负责人电话:</label>
+            <input type="number" id="farmMobile" name="farmMobile" data-toast="请输入负责人电话！" placeholder="请输入负责人电话"  value="">
+        </li>
+        <li>
+            <label>技术经理:</label>
+            <input type="text" id="farmManager" name="farmManager"  placeholder="请输入技术经理"  value="">
+        </li>
+        <li>
+            <label>技术经理电话:</label>
+            <input type="number" id="farmManagerNum" name="farmManagerNum"  placeholder="请输入技术经理电话"  value="">
+        </li>
+    </ul>
+
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+<script type="text/javascript" src="../../../script/common/mui.min.js"></script>
+<script type="text/javascript" src="../../../script/common/mui.picker.min.js"></script>
+<script type="text/javascript" src="../../../script/common/emptyFrm.js"></script>
+<script type="text/javascript">
+    var base = null, citySelector = null;
+    var changeFlag = false;
+    //var address = null;
+    apiready = function(){
+        api.parseTapmode();
+        base = api.pageParam.base;
+        citySelector = api.require('citySelector');//城市选择插件
+        //数据回显
+        baseInit();
+        //校验
+        var reg=/^[1-9][0-9]{0,5}([\.]{0,1}[0-9]{0,2})$/;
+        var regPhone = /1[3|4|5|8][0-9]\d{4,8}$/;
+
+        var regTitle = "请输入正确数值";
+        var regTitlePhone = "请输入正确的手机号";
+        addEventInput("farmName", 20, reg, regTitle);//基地名称
+        addEventInput("farmAddress", 50, reg, regTitle);//详细地址
+        addEventInput("farmArea", "", reg, regTitle);//基地面积
+        addEventInput("farmCharge", 20, reg, regTitle);//负责人
+        //addEventInput("farmMobile", "", regPhone, regTitlePhone);//负责人电话
+        addEventInput("farmManager", 20, reg, regTitle);//技术经理
+        //addEventInput("farmManagerNum", "", regPhone, regTitlePhone);//技术经理电话
+
+    };
+
+    //数据回显
+    function baseInit(){//alert(JSON.stringify(base))
+        if (base == null) {
+            return;
+        };
+        $("#customer").text(base.custName);//客户
+        $("#farmName").val(base.name);//基地名称
+        var city_ = "";
+        if (base.province == base.city) {
+            city_ = base.city
+        }else{
+            city_ = base.province + base.city;
+        };
+        $("#farmLocation").val(city_ + base.county);//地址
+        $("#farmAddress").val(base.address);//详细地址
+        $("#farmArea").val(base.area);//基地面积
+        $("#farmCharge").val(base.principal);//负责人
+        $("#farmMobile").val(base.principalPhone);//基地名称
+        $("#farmManager").val(base.technicalManager);//基地名称
+        $("#farmManagerNum").val(base.technicalManagerPhone);//基地名称
+
+    }
+
+    //打开城市列表
+    function openCityList(){
+        api.openWin({
+            name: 'adress_province',
+            url: '../address/address_province.html',
+            pageParam: {
+                winName: api.winName
+            }
+        });
+    };
+
+    //城市赋值
+    var address = null;
+    function setAddress(addr){//alert(JSON.stringify(addr))
+        if (addr != {} && addr != undefined) {
+            address = addr;
+            var addStr = "";
+            if (addr.province == addr.city) {
+                addStr = addr.city + addr.district
+            }else{
+                var province = (addr.province).substr(0, addr.province.length - 1);
+                addStr = province + addr.city + addr.district;
+            };
+            $("#farmLocation").val(addStr)
+        };
+
+    };
+
+    //保存提交
+    function dataUp(){
+        var upFlag = (function(){
+            var flag = false;
+            $(".require").find("select, input, textarea").each(function(){
+                var val = $(this).val();
+                if (val == "") {
+                    flag = true;
+                    var toast = $(this).attr("data-toast");
+                    api.toast({
+                        msg: toast,
+                        duration: 2000,
+                        location: 'middle'
+                    });
+                    return false
+                }
+            });
+            return flag
+        })();
+        if (upFlag) {
+            return;
+        };
+
+        //var regPhone = /1[3|4|5|8][0-9]\d{4,8}$/;
+        var regPhone = /^[1][3,4,5,7,8][0-9]{9}$/
+        var farmMobile = $("#farmMobile").val();
+        if (!regPhone.test(farmMobile)) {
+            api.toast({
+                msg: '请输入正确的负责人手机号！',
+                duration: 2000,
+                location: 'middle'
+            });
+            return;
+        }
+        var farmManagerNum = $("#farmManagerNum").val();//alert(!regPhone.test(farmManagerNum))
+        if (farmManagerNum != "" && !regPhone.test(farmManagerNum)) {
+            api.toast({
+                msg: '请输入正确的技术经理手机号！',
+                duration: 2000,
+                location: 'middle'
+            });
+            return;
+        };
+
+        api.confirm({
+            title: '提示！',
+            msg: '确认保存？',
+            buttons: ['确定', '取消']
+        }, function(ret, err){
+            if( ret ){
+                var btnIndex = ret.buttonIndex;
+                if (btnIndex == 1) {
+
+                    //登录埋点
+                    var buriedPoint = pds.buriedPoint();
+                    buriedPoint.pageId = 'page_modify_customer_information_service';
+                    buriedPoint.eventId = 'button_modify_customer_information_page_modify_customer_information_service';
+                    pds.ajaxSubmit({
+                        url:"app/buried_point/save",
+                        progress: false,
+                        data:{"point":buriedPoint},
+                        success:function(v){
+                            //alert(JSON.stringify(v))
+                        }
+                    });
+
+                    var ajaxData = (function(){
+                        var dataObj = {};
+                        dataObj.custId = base.custId;
+                        dataObj.id = base.id;
+                        if (address == null) {
+                            dataObj.province = base.province;
+                            dataObj.city = base.city;
+                            dataObj.county = base.county;
+                        }else{//alert(JSON.stringify(address))
+                            dataObj.province = address.province;
+                            dataObj.city = address.city;
+                            dataObj.county = address.district;
+                        };
+
+                        dataObj.name = $("#farmName").val();
+                        dataObj.area = $("#farmArea").val();
+                        dataObj.address = $("#farmAddress").val();
+                        dataObj.principal = $("#farmCharge").val();
+                        dataObj.principalPhone = $("#farmMobile").val();
+
+                        dataObj.technicalManager = $("#farmManager").val();
+                        dataObj.technicalManagerPhone = $("#farmManagerNum").val();
+
+                        return dataObj;
+                    })();
+                    //alert(JSON.stringify(ajaxData));
+                    pds.ajaxUpload({
+                        url: "/base/editeBase",
+                        body: ajaxData,
+                        success: function(e){
+                            if (e.msg == "OK") {
+
+                                api.execScript({
+                                    name: 'plantDomHome_win',
+                                    frameName: 'plantDomHome_frm',
+                                    script: 'baseInfo();'
+                                });
+                                api.execScript({
+                                    name: 'base_win',
+                                    frameName: 'base_frm',
+                                    script: 'window.location.reload();'
+                                });
+                                api.toast({
+                                  msg: '保存成功！',
+                                  duration: 2000,
+                                  location: 'middle'
+                                });
+                                setTimeout(function(){
+                                    api.closeWin();
+                                },1000);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+    };
+
+    //页面数据变更
+    function pageChange(){
+        if (changeFlag) {
+            api.execScript({
+                name: 'userInfoChange_win',
+                script: 'back();'
+            });
+        }else{
+            api.closeWin();
+        }
+    };
+
+    //监听输入框
+    function addEventInput(obj, length, reg, regTitle){
+
+        //面积输入
+        $("#"+obj).bind('input porpertychange',function(){
+              changeFlag = true;
+              var str = $(this).val();
+              if (length != "" && str != "") {
+                  if (str.length > length) {
+                      api.toast({
+                          msg: '最多可输入'+ length +'字',
+                          duration: 2000,
+                          location: 'middle'
+                      });
+                      $(this).val(str.slice(0,length))
+                  };
+                  return;
+              };
+              // var reg=/^[1-9][0-9]{0,5}[\.]{0,1}[0-9]{0,2}$/;
+              if(str != ""){
+                  var strArr = str.split(".");console.log(strArr.length)
+                  if(strArr.length > 2 || !reg.test(str)){
+                      api.toast({
+                          msg: regTitle,
+                          duration: 2000,
+                          location: 'middle'
+                      });
+                      $(this).val("");
+                  }
+
+              }
+        });
+
+
+    };
+
+</script>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>打卡首页</title>
+	<link rel="stylesheet" href="../../../css/common/public.css" />
+	<link rel="stylesheet" href="../../../css/common/header.css" />
+	<script type="text/javascript" src="../../../script/common/rem.js"></script>
+	<script type="text/javascript" src="../../../script/common/api.js"></script>
+</head>
+
+<body>
+	<header id="aui-header">
+		<a class="left" tapmode onclick="closeWin()">
+			<span></span>
+		</a>
+		<div class="title">打卡</div>
+
+		<span class="right" style="right:10px;width: 30%;text-align: right;" onclick="punchRecord()">打卡记录</span>
+
+	</header>
+</body>
+
+<script type="text/javascript">
+	apiready = function() {
+		api.parseTapmode();
+		var header = $api.byId('aui-header');
+		$api.fixStatusBar(header);
+		var headerPos = $api.offset(header);
+		var body_h = $api.offset($api.dom('body')).h;
+		api.openFrame({
+			name: 'clock_frm',
+			url: 'clock_frm.html',
+			bounces: false,
+			pageParam: {
+				'h': headerPos.h
+			},
+			rect: {
+				x: 0,
+				y: headerPos.h,
+				w: 'auto',
+				h: 'auto'
+			}
+		})
+		api.addEventListener({
+			name: 'keyback'
+		}, function(ret, err) {
+			if (ret) {
+				closeWin()
+			}
+		})
+	};
+
+	function closeWin() {
+		api.sendEvent({
+			name: 'onCloseMap'
+		})
+		api.closeWin({});
+	}
+
+	function punchRecord() {
+		console.log(JSON.stringify(api.pageParam))
+		var data = api.pageParam;
+		if (data.modFlag === "che") {
+			if (data.role === "0") {
+				api.openWin({
+					name: "recording_win",
+					url: "./recording_win.html",
+					pageParam: {
+						queryType: '0'
+					},
+					reload: true
+				})
+			} else if (data.role === "1") {
+				api.openWin({
+					name: "recordings_win",
+					url: "./recordings_win.html",
+					pageParam: {
+						queryType: '1'
+					},
+					reload: true
+				})
+			}
+		} else if (data.modFlag === "business") {
+			if (data.role === "0") {
+				api.openWin({
+					name: "recording_win",
+					url: "./recording_win.html",
+					pageParam: {
+						queryType: '0'
+					},
+					reload: true
+				})
+			} else if (data.role === "1" || data.role === "3") {
+				api.openWin({
+					name: "recordings_win",
+					url: "./recordings_win.html",
+					pageParam: {
+						queryType: '1'
+					},
+					reload: true
+				})
+			}
+			}else if (data.modFlag === "none") {
+				if(data.role==="2"){
+					api.openWin({
+						name: "recording_win",
+						url: "./recording_win.html",
+						pageParam: {
+							queryType: '0'
+						},
+						reload: true
+					})
+				}
+		}
+	}
+</script>
+</html>

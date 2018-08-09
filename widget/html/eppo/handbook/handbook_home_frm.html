@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>操作手册</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+
+    <style>
+        html, body{
+            width: 100%;height:100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: #f2f2f2;
+        }
+
+        .wrap{
+            width: 100%;
+        }
+        #mainList{
+            width: 100%;
+        }
+        #mainList>li{
+            width: 100%;
+            padding: 0.5rem 0.3rem;
+            min-height: 1.9rem;
+            background-color: #fff;
+            border-bottom: solid 1px #e9e9e9;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        #mainList>li .leftMain{
+            width: 70%;
+            height: 100%;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: center;
+            justify-content: center;
+
+            -webkit-box-align: start;
+            -webkit-align-items: flex-start;
+            align-items: flex-start;
+        }
+
+        #mainList>li .leftMain>span{
+            color: #333;
+            font-size: 0.36rem;
+            margin-bottom: 0.2rem;
+        }
+
+        #mainList>li .leftMain>p{
+            width: 100%;
+            line-height: 0.45rem;
+            font-size: 0.26rem;
+            color: #666;
+        }
+
+        #mainList>li .iconMain{
+            width: 0.6rem;
+            height:0.45rem;
+            background: url("../../../image/handBook/plantBook.png") no-repeat center center;
+            background-size: 100% 100%;
+        }
+        #mainList>li .rightMain{
+            width: 0.2rem;
+            height:0.35rem;
+            background: url("../../../image/handBook/next.png") no-repeat center center;
+            background-size: 100% 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <ul id="mainList">
+           <li id="plantDoc" onclick="openHandBookInfo();">
+              <div class="iconMain"></div>
+              <div class="leftMain">
+                  <span class="title">植保档案</span>
+                  <p class="main">高效管理植保全过程数据，永不丢失！</p>
+              </div>
+              <div class="rightMain"></div>
+           </li>
+        </ul>
+        <!-- <div class="more">
+            <i class="pull_icon"></i>
+            <span>上拉加载更多...</span>
+        </div> -->
+    </div>
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+
+<script type="text/javascript">
+
+    apiready = function(){
+        api.parseTapmode();
+
+    };
+
+    //打开新增页面***************************************************
+    function openHandBookInfo(){
+      	api.openWin({
+      		name : "handbook_info_win",
+      		url : "./handbook_info_win.html",
+      	});
+    };
+
+</script>
+</html>

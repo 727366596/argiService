@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>植保客户</title>
+	<link rel="stylesheet" href="../../css/common/public.css" />
+	<script type="text/javascript" src="../../script/common/rem.js"></script>
+	<script type="text/javascript" src="../../script/common/api.js"></script>
+	<script type="text/javascript" src="../../script/common/jquery.min.js"></script>
+	<style media="screen">
+			html,body{
+				height: 100%;
+			}
+    	.content {
+    		font-size: 0.32rem;
+    		color: #333;
+        font-weight: bold;
+    		padding:0 0.1rem;
+    		box-sizing: border-box;
+        background: #fff;
+				height: 100%;
+    	}
+      .plant-use-box{
+				width: 100%;
+				overflow: hidden;
+		    padding: 0 0 0.3rem 0.2rem;
+				box-sizing: border-box;
+				font-size: 0.28rem;
+				border-bottom: 1px solid #e9e9e9;
+			}
+			.plant-use-box img{
+				width: 2.2rem;
+				height: 1.2rem;
+				margin-right: 0.15rem;
+				margin-bottom: 0.3rem;
+				float: left;
+			}
+			.plant-use-tit{
+			  font-family: PingFangSC Medium;
+				width: 100%;
+				font-size: 0.32rem;
+				line-height: 1rem;
+				font-weight: bold;
+				overflow: hidden;
+			}
+			.plant-use-tit .plant-use-tit-img{
+				width: 0.28rem;
+				height: 0.34rem;
+				margin-left: 0.2rem;
+				vertical-align: middle;
+				margin-top: 0.3rem;
+			}
+			.plant-use-tit span,.plant-use-tit img{
+				float: left;
+			}
+      .plant-tit{
+        width: 100%;
+        font-size: 0.32rem;
+        height: 1rem;
+        font-weight: bold;
+        background: url(../../image/index/p-new.png)no-repeat left center;
+        background-size: 1.77rem 0.35rem;
+      }
+      .plant-use-item-box{
+        overflow: hidden;
+      }
+      .add-box{
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        padding: 2.46rem 1.17rem 0;
+        box-sizing: border-box;
+      }
+      .add-item{
+        width: 100%;
+        overflow: hidden;
+        background: #fff;
+        box-shadow:0 0 46px rgba(0,0,0,.6);;
+      }
+      .add-item .tit{
+        width: 100%;
+        line-height: 0.86rem;
+        font-size: 0.28rem;
+        color: #666;
+        text-align: center;
+      }
+      .add-item .text{
+        width: 100%;
+        height: 0.8rem;
+        padding: 0 0.48rem;
+        box-sizing: border-box;
+        margin-bottom: 0.44rem;
+        position: relative;
+      }
+      .add-item .text .p-text-img{
+        width: 0.28rem;
+        height: 0.28rem;
+        position: absolute;
+        left: 1.34rem;
+        top: 0.22rem;
+      }
+      .add-item .text input{
+        width: 100%;
+        height: 0.8rem;
+        line-height: 0.8rem;
+        font-size: 0.28rem;
+        color: #666;
+        padding: 0 0.3rem 0 1.38rem;
+        box-sizing: border-box;
+        background: #eee;
+      }
+      input::-webkit-input-placeholder {
+          color: #ccc;
+      }
+      input:-moz-placeholder {
+          color: #ccc;
+      }
+      input:-ms-input-placeholder {
+          color: #ccc;
+      }
+      .add-item .btn{
+        width: 100%;
+        line-height: 0.8rem;
+        border-top: 1px solid #f46600;
+        font-size: 0.26rem;
+        color: #666;
+      }
+      .add-item .btn span{
+        float: left;
+        width: 50%;
+        text-align: center;
+      }
+      .add-item .btn .sure{
+        background: #f46600;
+        color: #fff;
+      }
+      .add-item .kaifa-img{
+        width: 100%;
+        height: 1.4rem;
+      }
+      .kaifa-item{
+        padding: 0.76rem 0.82rem;
+        box-sizing: border-box;
+      }
+	</style>
+</head>
+<body>
+	<div class="content">
+    <div class="plant-use-box" id="first">
+      <div class="plant-use-tit">
+				<span class="plant-use-tit-name">考勤管理</span>
+				<img class="plant-use-tit-img" src="../../image/index/p-re.png" alt="">
+			</div>
+      <div class="plant-use-item-box">
+        <img src="../../image/index/p-card-s.png" alt="">
+        <img class="addImg" src="../../image/index/p-add.png" alt="">
+      </div>
+
+    </div>
+    <div class="plant-use-box" id="two">
+      <div class="plant-use-tit">
+				<span class="plant-use-tit-name">业务管理</span>
+				<img class="plant-use-tit-img" src="../../image/index/p-re.png" alt="">
+			</div>
+      <div class="plant-use-item-box">
+        <img src="../../image/index/p-card-s.png" alt="">
+        <img src="../../image/index/p-plant.png" alt="">
+        <img src="../../image/index/p-dangan.png" alt="">
+        <img src="../../image/index/p-v-a.png" alt="">
+        <img class="addImg" src="../../image/index/p-add.png" alt="">
+      </div>
+
+    </div>
+    <div class="plant-use-box" style="border:none;">
+      <div class="plant-tit addImg"></div>
+      <div class="plant-use-item-box">
+      </div>
+
+    </div>
+    <!-- 新增 -->
+    <div class="add-box" id="add" style="display:none;">
+      <div class="add-item">
+        <div class="tit">请输入该分组名称</div>
+        <div class="text">
+          <img src="../../image/index/p-text.png" alt="" class="p-text-img">
+          <input id="titText" type="text" placeholder="对应分组名称" maxlength="7">
+        </div>
+        <div class="btn">
+          <span class="cancle">取消</span>
+          <span class="sure">确定</span>
+        </div>
+      </div>
+    </div>
+    <!-- 开发中-->
+    <div class="add-box" id="development" style="display:none;">
+      <div class="add-item kaifa-item">
+        <img src="../../image/index/p-kaifa.png" class="kaifa-img" alt="">
+      </div>
+    </div>
+	</div>
+</body>
+<script>
+  apiready = function(){
+
+	  $(function() {
+
+			var userId = api.pageParam.userId
+			// console.warn(JSON.stringify(userId));
+			// 数据存储
+			var storage=window.localStorage;
+			var data
+			// console.warn(storage.getItem(userId));
+			// 页面初始化时获取分组名称并渲染
+			var storageText = JSON.parse(storage.getItem(userId))
+			if(storageText !== null){
+				// console.warn(JSON.stringify(storageText));
+				$('#first .plant-use-tit-name').html(storageText.first)
+				$('#two .plant-use-tit-name').html(storageText.two)
+				data = {'userId':userId,'first':storageText.first,'two':storageText.two}
+			}else{
+				data = {'userId':userId,'first':'考勤管理','two':'业务管理'}
+			}
+			// 添加功能点击事件
+			$('.addImg').on('click',function() {
+					$('#development').fadeIn(500)
+					$('#development').delay(1000).fadeOut(500);
+			})
+			// 编辑分组名称点击事件
+			$('.plant-use-tit-img').on('click',function() {
+					$('#add').fadeIn(500)
+					$('#titText').val($(this).prev().html())
+					ChangeTit($(this))
+			})
+
+			function ChangeTit(node) {
+				// 确定按钮点击事件
+				$('.sure').off("click").on('click',function() {
+				
+						if($('#titText').val()==''){
+							api.alert({
+							    title: '',
+							    msg: '名称不能为空',
+							}, function(ret, err) {
+							});
+						}else{
+							// 分组名称存储
+							var parentId = $(node).parents('.plant-use-box').attr('id')
+							if(parentId == 'first'){
+								data.first =$('#titText').val()
+							}else {
+								data.two = $('#titText').val()
+							}
+							storage.setItem(userId,JSON.stringify(data));
+							$(node).prev().html($('#titText').val())
+							$('#add').fadeOut(500);
+						}
+				})
+				// 取消按钮点击事件
+				$('.cancle').off("click").on('click',function() {
+						$('#add').fadeOut(500);
+				})
+
+			}
+  })
+	}
+</script>
+</html>

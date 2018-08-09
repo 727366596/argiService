@@ -1,0 +1,603 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>作物信息修改</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/iscroll-style_.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/mui.picker.min.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+    <style>
+        html, body{
+            width: 100%;height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: #f2f2f2;
+            padding: 0.2rem;
+        }
+        .optionBox{
+            width: 100%;
+            background-color: #fff;
+            padding: 0.3rem 0.2rem;
+            padding-top: 0.6rem;
+        }
+        .optionBox>li{
+            width: 100%;
+            padding-left: 0.3rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        .optionBox>li:first-of-type{
+            margin-bottom: 0.3rem;
+        }
+        /*.optionBox>li>span{
+            width: 1.8rem;
+            text-align: left;
+            font-size: 0.28rem;
+            color:#666;
+        }
+        .optionBox>li>input{
+            height: 0.8rem;
+            line-height: 0.8rem;
+            padding:0 0.2rem;
+            border: solid 1px #b0bcb0;
+            outline: none;
+            width: 4.4rem;
+            font-size: 0.28rem;
+            color:#666;
+        }
+        .optionBox>li>p{
+            width: 4.4rem;
+            line-height: 0.45rem;
+            font-size: 0.28rem;
+            color:#666;
+        }*/
+        .optionBox>li>lable{
+            width: 1.3rem;
+            height:0.8rem;
+            line-height: 0.8rem;
+            text-align: right;
+            font-size: 0.28rem;
+            color:#666;
+        }
+        .optionBox>li>input, .optionBox>li>select{
+            height: 0.8rem;
+            line-height: 0.8rem;
+            padding:0 1.2rem 0 0.2rem;
+            border: solid 1px #b0bcb0!important;
+            outline: none;
+            width: 4.6rem;
+            font-size: 0.28rem;
+            color:#666;
+            margin-bottom: 0!important;
+        }
+        .optionBox>li>select>option{
+            font-size: 0.2rem;
+            color:#666;
+        }
+        .optionBox>li>span, .optionBox>li>i{
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 1.0rem;
+            height:0.8rem;
+            line-height: 0.8rem;
+            text-align: center;
+            font-size: 0.28rem;
+            color: #666;
+        }
+        .optionBox>li>i{
+            background: url("../../../image/plantDoc/more_down.png") no-repeat center center;
+            background-size: 0.35rem 0.2rem;
+        }
+
+        .optionBox>li>div{
+            /*height: 0.8rem;*/
+            line-height: 0.8rem;
+            width: 4.6rem;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+
+        }
+        /*.optionBox>li>div>i.boxI{
+            border:solid 1px #b0bcb0;
+            width: 1.2rem;
+            height:0.8rem;
+            line-height: 0.8rem;
+            text-align: center;
+            font-size: 0.28rem;
+            color: #666;
+        }*/
+        .optionBox>li>div>input{
+            border:solid 1px #b0bcb0;
+            height: 0.8rem;
+            padding: 0 0.2rem;
+            line-height: 0.8rem;
+            text-align: left;
+            outline: none;
+            width: 2.0rem;
+            font-size: 0.28rem;
+            color:#666;
+            margin-bottom: 0!important;
+        }
+        .optionBox>li>div>span{
+            height:0.8rem;
+            line-height: 0.8rem;
+            text-align: center;
+            font-size: 0.28rem;
+            color: #666;
+        }
+
+        .require{
+            background: url("../../../image/plantDoc/require.png") no-repeat left 0.28rem;
+            background-size: 0.16rem 0.16rem;
+        }
+    </style>
+</head>
+<body>
+    <ul class="optionBox">
+        <li class="require">
+            <lable>种植作物:</lable>
+            <!-- <input type="text" name="farmName" placeholder="请选择种植作物" value="" readonly="true"> -->
+            <select class="option" id="plantList">
+                  <option value ="" >请选择作物</option>
+            </select>
+            <i></i>
+        </li>
+        <li class="require">
+            <lable>种植品种:</lable>
+            <select class="option" id="typeList">
+                  <option value ="">请选择品种</option>
+            </select>
+            <!-- <input type="text" name="farmLocation" placeholder="请选择种植品种" value="" readonly="true"> -->
+            <i></i>
+        </li>
+
+        <li class="require">
+            <lable>种植面积:</lable>
+            <input class="option" type="number" name="plantArea" id="plantArea" placeholder="请输入种植面积" value="">
+            <span>亩</span>
+        </li>
+        <li class="require">
+            <lable>种植季:</lable>
+            <div>
+                <input class="option" type="text" name="time1" id="time1" placeholder="开始日" value="" readonly="true">
+                <span>至</span>
+                <input class="option" type="text" name="time2" id="time2" placeholder="结束日" value="" readonly="true">
+
+            </div>
+        </li>
+        <li class="require">
+            <lable>生育期:</lable>
+            <input class="option" type="number" name="growDate" id="growDate" placeholder="请输入生育天数" value="">
+            <span>天</span>
+        </li>
+
+    </ul>
+
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+<script type="text/javascript" src="../../../script/common/mui.min.js"></script>
+<script type="text/javascript" src="../../../script/common/mui.picker.min.js"></script>
+<script type="text/javascript" src="../../../script/common/emptyFrm.js"></script>
+<script type="text/javascript">
+    var baseInfo = null;
+    var area = null;
+    apiready = function(){
+        api.parseTapmode();
+        baseInfo = api.pageParam.baseInfo;//alert(JSON.stringify(baseInfo));
+
+        //获取作物下拉列表
+        getPlantList();
+        //获取品种下拉列表
+        $("#typeList").on("touchend",function(){
+            var plantId = $("#plantList").val();
+            var typeId = $(this).val();//alert(plantId +"***********"+typeId)
+            if (plantId == "") {
+                $(this).attr("disabled","disabled");
+                api.toast({
+                    msg: '请先选择作物！',
+                    duration: 2000,
+                    location: 'middle'
+                });
+            }else{
+                $(this).removeAttr("disabled");
+            }
+        });
+
+        //监听面积输入框和生育期输入框
+        addEventInput();
+        //日期下拉列表
+        getDate();
+
+    };
+
+    //获取作物下拉列表
+    function getPlantList(){
+        pds.ajaxUpload({
+            url: "/archives/getPlants",
+            progress: false,
+            type: "post",
+            success: function(e){
+                var data = e.data;//alert(JSON.stringify(data))
+                if (data != [] && data != null) {
+                    var listStr = '<option value ="">请选择作物</option>';
+                    //var listStr = "";
+                    for (var i = 0; i < data.length; i++) {
+                        var listObj = data[i];
+                        if (listObj.id != null && listObj.cat_name != null) {
+                            listStr += '<option value="'+ listObj.id +'">'+ listObj.cat_name +'</option>'
+                        }
+                    };
+                    $("#plantList").html(listStr).change(function(){
+                        var plantId = $(this).val();
+                        getTypeList(plantId);
+                    });
+                }
+            }
+        })
+    }
+
+    //获取品种下拉列表
+    function getTypeList(plantId){
+        pds.ajaxUpload({
+            url: "/archives/getPlantsVa",
+            type: "post",
+            progress: false,
+            data: {
+                plantId : plantId
+            },
+            success: function(e){
+                var data = e.data;
+                if (data != [] && data != null) {
+                    var listStr = '<option value ="">请选择品种</option>';
+                    //var listStr = "";
+                    for (var i = 0; i < data.length; i++) {
+                        var listObj = data[i];
+                        if (listObj.id != null || listObj.cat_name != null) {
+                            listStr += '<option value="'+ listObj.id +'">'+ listObj.cat_name +'</option>'
+                        }
+                    };
+                    $("#typeList").html(listStr);
+                }
+            }
+        })
+    }
+
+    //监听输入框
+    function addEventInput(){
+        //查寻当前剩余可种植面积
+        // pds.ajaxUpload({
+        //     url: "/archives/valiCrop",
+        //     progress: false,
+        //     data: {
+        //         baseId: baseInfo.farmLandId
+        //     },
+        //     success: function(e){
+        //         var data = e.data;//alert(JSON.stringify(data))
+        //         if (data != {} && data != null) {
+        //             area = parseInt(data.area);
+        //         }
+        //     }
+        // });
+        area = parseFloat(api.pageParam.baseInfo.farea);
+
+        //面积输入
+        $("#plantArea").bind('input porpertychange',function(){
+              var areaNum = $(this).val();
+              var reg=/^[1-9][0-9]{0,5}[\.]{0,1}[0-9]{0,2}$/;
+              if(!reg.test(areaNum)){
+                  api.toast({
+                      msg: '请输入正确的面积',
+                      duration: 2000,
+                      location: 'middle'
+                  });
+                  $(this).val("");
+              }else{
+                  if (area != null && parseFloat(areaNum) > area) {
+                      api.toast({
+                          msg: '您当前可种植面积为'+ area +'亩，请确认！',
+                          duration: 2000,
+                          location: 'middle'
+                      });
+                      $(this).val("");
+                  }
+              };
+
+        });
+        //生育期输入
+        $("#growDate").bind('input porpertychange',function(){
+              var growDate = $(this).val();
+              var reg=/^[1-9][0-9]{0,2}$/;
+              if(!reg.test(growDate)){
+                  api.toast({
+                      msg: '请输入正确的天数',
+                      duration: 2000,
+                      location: 'middle'
+                  });
+                  $(this).val("");
+              }
+        });
+    };
+
+		//点击日期
+		function getDate(){
+      mui.init();//创建日期插件
+      var dtpicker = new mui.DtPicker({
+          type: 'date', //设置日历初始视图模式
+          labels: ['年', '月', '日'] //设置默认标签区域提示语
+      });
+      dtpicker.hide();
+			//开启完成时间日期插件startDate
+			var myDate = new Date();
+			var year = myDate.getFullYear();
+      var month = myDate.getMonth() + 1;
+			if (month < 10) {
+				  month = '0' + month;
+			};
+			var day = myDate.getDate();
+			if (day < 10) {
+		      day = '0' + day;
+		  };
+			var currentDate =  year + '-' + month + '-' + day;
+
+			$("#time1").off("touchend").on("touchend",function(){
+					var texts = $(this);
+			    dtpicker.show(function (rs) {
+			        //console.log('rs++'+ JSON.stringify( rs ) );
+							var oDate1 = new Date(rs.text);
+						  var oDate2 = $("#time2").val();
+              if (oDate2 == "") {
+                  texts.val(rs.y.text + '-' + rs.m.text + '-' + rs.d.text)
+              }else{
+                  var oDate2_ = new Date(oDate2);
+                  if(oDate1.getTime() > oDate2_.getTime()){
+                      api.toast({
+                          msg: '开始日要早于结束日！',
+                          duration: 2000,
+                          location: 'middle'
+                      });
+                      texts.val("");
+                  }else{
+                      texts.val(rs.y.text + '-' + rs.m.text + '-' + rs.d.text)
+                  }
+              }
+
+              dtpicker.hide();
+					})
+
+			});
+			//开始开始时间插件
+			$("#time2").off("touchend").on("touchend",function(){
+          var texts = $(this);
+          dtpicker.show(function (rs) {
+              //console.log('rs++'+ JSON.stringify( rs ) );
+              var oDate1 = new Date(rs.text);
+              var oDate2 = $("#time1").val();
+              if (oDate2 == "") {
+                  texts.val(rs.y.text + '-' + rs.m.text + '-' + rs.d.text)
+              }else{
+                  var oDate2_ = new Date(oDate2);
+                  if(oDate1.getTime() < oDate2_.getTime()){
+                      api.toast({
+                          msg: '结束日要晚于开始日！',
+                          duration: 2000,
+                          location: 'middle'
+                      });
+                      texts.val("");
+                  }else{
+                      texts.val(rs.y.text + '-' + rs.m.text + '-' + rs.d.text)
+                  }
+              }
+
+              dtpicker.hide();
+          })
+      });
+		};
+
+    //点击提交
+    function dataUp(){
+        var plantName = $("#plantList").val();
+        if (plantName == "") {
+            api.toast({
+                msg: '请选择作物名称',
+                duration: 2000,
+                location: 'middle'
+            });
+            return;
+        };
+        var plantType = $("#typeList").val();
+        if (plantType == "") {
+            api.toast({
+                msg: '请选择作物品种',
+                duration: 2000,
+                location: 'middle'
+            });
+            return;
+        };
+        var plantArea = $("#plantArea").val();
+        var area = api.pageParam.area;
+        if (plantArea == "") {
+            api.toast({
+                msg: '请输入种植面积！',
+                duration: 2000,
+                location: 'middle'
+            });
+            return;
+        }else if(area != null && plantArea > area){
+            api.toast({
+                msg: '种植面积不能大于基地面积'+ area +'亩，请确认！',
+                duration: 2000,
+                location: 'middle'
+            });
+            return;
+        };
+        var startDate = $("#time1").val();
+        var endDate = $("#time2").val();
+        if (startDate == "" || endDate == "") {
+            api.toast({
+                msg: '请选择种植季时间',
+                duration: 2000,
+                location: 'middle'
+            });
+            return;
+        };
+        var growDate = $("#growDate").val();
+        if (growDate == "") {
+            api.toast({
+                msg: '请输入生育天数',
+                duration: 2000,
+                location: 'middle'
+            });
+            return;
+        };
+        //alert(startDate + "*******" + endDate)
+        api.confirm({
+            title: '提示！',
+            msg: '保存后不可修改，确认保存？',
+            buttons: ['确定', '取消']
+        }, function(ret, err){
+            if( ret ){
+                var btnIndex = ret.buttonIndex;
+                if (btnIndex == 1) {
+
+                    //登录埋点
+                    var buriedPoint = pds.buriedPoint();
+                    buriedPoint.pageId = 'page_plant_information_service';
+                    buriedPoint.eventId = 'button_add_plant_information_page_plant_information_service';
+                    pds.ajaxSubmit({
+                        url:"app/buried_point/save",
+                        progress: false,
+                        data:{"point":buriedPoint},
+                        success:function(v){
+                            //alert(JSON.stringify(v))
+                        }
+                    });
+
+                    var ajaxData = {
+                        baseId : baseInfo.farmLandId,
+                        plantCropId : plantName,
+                        plantVarietyId : plantType,
+                        plantArea : plantArea,
+                        startTime : startDate,
+                        endTime : endDate,
+                        growthPeriod : growDate
+                    };
+                    //alert(JSON.stringify(ajaxData))
+                    pds.ajaxUpload({
+                        url: "/archives/saveCrop",
+                        body: ajaxData,
+                        type:'post',
+                        success: function(e){
+                            if (e.msg == "OK") {
+                                api.execScript({
+                                    name: 'plantDomHome_win',
+                                    frameName: 'plantDomHome_frm',
+                                    script: 'getPageData("'+ baseInfo.farmLandId +'", 1, 10);'
+                                });
+
+                                api.toast({
+                                  msg: '保存成功！',
+                                  duration: 2000,
+                                  location: 'middle'
+                                });
+                                setTimeout(function(){
+                                    api.closeWin();
+                                },1000);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+
+
+
+
+
+    }
+
+    //判断页面是否有数据更改
+    function pageChange(){
+        var plantName = $("#plantList").val();
+        var plantType = $("#typeList").val();
+        var plantArea = $("#plantArea").val();
+        var startDate = $("#time1").val();
+        var endDate = $("#time2").val();
+        var growDate = $("#growDate").val();
+        var strArr = [plantName, plantType, plantArea, startDate, endDate, growDate];
+        var flag = (function(){
+            var flag_ = false;
+            $.each(strArr, function(index, value){
+                if (value != "") {
+                    flag_ = !flag_;
+                    return false;
+                }
+            });
+
+            return flag_;
+        })();
+        if (flag) {
+          api.execScript({
+              name: 'plantDocAdd_win',
+              script: 'back();'
+          });
+        }else{
+          api.closeWin({
+              name: 'plantDocAdd_win'
+          });
+
+        }
+
+    }
+
+    function parserDate(date){
+        var t = Date.parse(date);
+        if (!isNaN(t)){
+            return new Date(Date.parse(date.replace(/-/g, "/")));
+        }else{
+            return undefined;
+        }
+    }
+
+</script>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>员工轨迹弹窗页</title>
+    <link rel="stylesheet" href="../../../css/common/public.css" />
+    <script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../script/common/api.js"></script>
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+    <style media="screen">
+        html,
+        body {
+            background: none;
+            height: 100%;
+        }
+
+        .box {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            padding: 2.6rem 0.87rem 0;
+            box-sizing: border-box;
+        }
+
+        .box-content {
+            width: 100%;
+            overflow: hidden;
+            background: #fff;
+            border: 0.15rem solid #86857f;
+            font-size: 0.28rem;
+            color: #666;
+        }
+
+        .title {
+            width: 100%;
+            line-height: 0.93rem;
+            text-align: center;
+            position: relative;
+            font-size: 0.36rem;
+            color: #6d6a48;
+            background: #f7e359;
+            margin-bottom: 0.4rem;
+        }
+
+        .close_box {
+            position: absolute;
+            right: 0.32rem;
+            top: 0.24rem;
+            width: 0.4rem;
+            height: 0.4rem;
+            background: url('../../../image/index/punch/prompt.png')no-repeat;
+            background-size: 0.4rem 0.4rem;
+            z-index: 99999;
+        }
+
+        p {
+            padding: 0 0.14rem;
+            box-sizing: border-box;
+        }
+
+        .detail_bottom {
+            color: #b9a624;
+            margin-bottom: 0.95rem;
+            margin-top: 0.32rem;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="content">
+        <div class="box">
+            <div class="box-content">
+                <div class="title">
+                    说明
+                    <span class="close_box" onclick="closePromptAlert()"></span>
+                </div>
+                <p class="detail_top">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;手机没有网络、网络信号不好或者手机未开启GPS定位服务时，可能导致手机取不到轨迹。此时系统默认将中间断开的轨迹用直线连接
+                </p>
+                <p class="detail_bottom">
+                    PS：18:00-18:30打卡后，将不再记录轨迹，后续再打卡的，系统默认将上次打卡地点用直线自动连接，以此类推
+                </p>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script>
+    apiready = function() {
+
+
+
+    }
+
+    function closePromptAlert() {
+        api.sendEvent({
+            name: 'closePromptAlert'
+        });
+
+    }
+</script>

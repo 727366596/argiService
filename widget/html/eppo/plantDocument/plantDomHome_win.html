@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>档案管理</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/header_ph.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+</head>
+<body>
+    <div id="header">
+        <div class="headerLeft" onclick="back()"></div>
+        <div class="headerCenter">
+            档案管理
+        </div>
+        <div class="headerRight"></div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+<script type="text/javascript">
+    var baseInfo = null, plantBaseRole = null;
+    var area = null;
+    apiready = function(){
+        //适配iOS7+，Android4.4+状态栏沉浸式效果，详见config文档statusBarAppearance字段
+        var header = $api.byId('header');
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+        //$("body").css({"paddingTop":headerH+"px"});
+        var id = api.pageParam.id;
+        baseInfo = api.pageParam;
+        //alert(JSON.stringify(baseInfo))
+        plantBaseRole = baseInfo.userId;
+        api.openFrame({
+            name: 'plantDomHome_frm',
+            url: './plantDomHome_frm.html',
+            bounces: false,
+            pageParam:{
+                baseInfo : baseInfo,
+                plantBaseRole : plantBaseRole
+            },
+            rect: {
+                x: 0,
+                y: headerH,
+                w: 'auto',
+                h: 'auto'
+            }
+        });
+
+    };
+
+
+    //显示添加按钮，添加触摸点击事件
+    function bindAdd(){
+        $(".headerRight").text("添加").bind("touchend",function(){
+            //登录埋点
+            var buriedPoint = pds.buriedPoint();
+            buriedPoint.pageId = 'page_archive_management_service';
+            buriedPoint.eventId = 'button_add_plant_information_page_archive_management_service';
+            pds.ajaxSubmit({
+                url:"app/buried_point/save",
+                progress: false,
+                data:{"point":buriedPoint},
+                success:function(v){
+                    //alert(JSON.stringify(v))
+                }
+            });
+
+            openAdd();
+        });
+    }
+    //打开新增页面***************************************************
+    function openAdd(){
+
+      	api.openWin({
+        		name : "plantDocAdd_win",
+        		url : "widget://html/eppo/plantDocument/plantDocAdd_win.html",
+            pageParam:{
+                baseInfo : baseInfo,
+                area: area
+            },
+        });
+    };
+
+    function back(){
+        api.closeWin();
+    }
+</script>
+</html>

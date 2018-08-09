@@ -1,0 +1,634 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>植保档案总览</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/common/public.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/common/iscroll-style_.css" />
+    <script type="text/javascript" src="../../../script/common/rem.js"></script>
+    <style type="text/css">
+        html, body{
+            width: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: #f2f2f2;
+        }
+        .contentMain{
+            width: 100%;
+            min-height: 3.65rem;
+            padding: 0.4rem;
+            background: url("./../../../image/plantDoc/bc-b.png") no-repeat center center;
+            background-size: 100% 102%;
+            position: relative;
+
+        }
+
+        .mainTitle{
+            width: 100%;height: 0.9rem;
+            border-bottom: solid 1px #94d9fa;
+            line-height: 0.9rem;
+            padding: 0 0.6rem;
+            margin: 0 auto;
+            background-color: rgba(256,256,256,0.85);
+
+        }
+        .mainTitle>p{
+            /*display: inline-block;
+            vertical-align: middle;*/
+            width: 100%;height: 100%;
+            line-height: 0.9rem;text-align: center;
+            font-size: 0.3rem;color: #333;
+            white-space: nowrap;
+            overflow-y: hidden;
+            overflow-x: auto;
+        }
+        .mainContent{
+            background-color: rgba(256,256,256,0.85);
+            width: 100%;height: 2.1rem;
+            padding: 0.3rem 1.5rem;
+        }
+        .mainContent-list{
+            width: 100%;
+            height: 100%;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            -webkit-box-align: start;
+            -webkit-align-items: flex-start;
+            align-items: flex-start;
+        }
+        .mainContent-list>p{
+            width: 100%;
+            line-height: 0.38rem;
+            font-size: 0.28rem;
+            color: #333333;
+            text-align: left;
+        }
+        .mainContent-list>p>span{
+            display: inline-block;
+        }
+
+
+
+        .contentList{
+            width: 100%;
+            padding-bottom: 1.5rem;
+            background-color: #fff;
+            /*display: none;*/
+        }
+        .contentList-main{
+            width: 100%;
+        }
+        .contentList-main:last-child{
+            margin-bottom: 0;
+        }
+        .contentList-main-title{
+            width: 100%;
+            height:0.88rem;
+            line-height: 0.88rem;
+            padding-left: 0.2rem;
+            background-color: #fff;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: flex-start;
+            justify-content: flex-start;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        .contentList-main-title>span{
+            /*height:0.44rem;
+            line-height: 0.44rem;*/
+            /*width: 1.2rem;*/
+            text-align: center;
+            font-size: 0.28rem;
+            color: #333;
+            /*border-radius: 0.22rem;
+            background-color: #77b863;*/
+        }
+        .contentList-main-body{
+            width: 6.35rem;
+            border-left:solid 1px #77b863;
+            padding: 0.3rem 0;
+            margin: 0 auto;
+        }
+        .contentList-main-body>li{
+            width: 100%;
+            /*height:1.82rem;*/
+            margin-bottom: 0.45rem;
+            /*background-image: url("../../../image/plantDoc/info.png");
+            background-size: 0.18rem 0.32rem;
+            background-position: 97.5% center;
+            background-repeat: no-repeat;*/
+            background-color: #fff;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: flex-start;
+            justify-content: flex-start;
+
+            -webkit-box-align: start;
+            -webkit-align-items: start;
+            align-items: start;
+        }
+        .contentList-main-body>li:last-of-type{
+            margin-bottom: 0;
+        }
+        .contentList-main-body>li .point{
+            width: 0.12rem;
+            height: 0.12rem;
+            border-radius: 50%;
+            background-color: #77b863;
+            margin: 0.1rem 0.1rem 0 -0.06rem;
+        }
+        .contentList-main-body>li .numName{
+            width: 1.04rem;
+            height: 0.4rem;line-height: 0.4rem;
+            text-align: center;
+            font-size: 0.24rem;
+            color: #fff;
+            background-color: #77b863;
+            border-radius: 0.2rem;
+            margin-right: 0.4rem;
+        }
+        .contentList-main-body>li .numText{
+            line-height: 0.45rem;
+            text-align: left;
+            font-size: 0.26rem;
+            color: #666;
+            max-width: 73%;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display:flex;
+
+            -webkit-box-orient: horizontal;
+            -webkit-flex-flow: row;
+            flex-flow: row;
+
+
+            -webkit-box-pack: justify;
+            -webkit-justify-content: flex-start;
+            justify-content: flex-start;
+
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+
+            -webkit-box-lines:multiple;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+
+        }
+        .contentList-main-body>li .numText>span{
+            margin-right: 0.2rem;
+            /*margin-bottom: 0.2rem;*/
+        }
+
+
+        .contentList-main-body>li img{
+            width: 2.0rem;
+            height: 1.5rem;
+        }
+
+
+
+        .contentEmpty{border:solid 1px blue;
+            width: 100%;
+            /*display: none;*/
+        }
+        .contentEmpty-icon{
+            width: 1.64rem;
+            height:1.64rem;
+            border:solid 1px #d0d0d0;
+            border-radius: 50%;
+            background: url("../../../image/plantDoc/empty.png") no-repeat center center;
+            background-size: 50% 50%;
+            margin: 1.0rem auto;
+            margin-bottom: 0.25rem;
+        }
+        .contentEmpty-text{
+            font-size: 0.26rem;
+            color: #666;
+            text-align: center;
+            margin: 0.2rem auto;
+        }
+        .contentEmpty-btn{
+            height:0.8rem;
+            width: 3.88rem;
+            border-radius: 0.4rem;
+            line-height: 0.8rem;
+            text-align: center;
+            background-color: #00c558;
+            font-size: 0.3rem;
+            color: #fff;
+            margin: 0.4rem auto;
+        }
+    </style>
+</head>
+<body>
+    <section class="contentMain">
+        <div class="mainTitle">
+              <p></p>
+        </div>
+        <div class="mainContent">
+              <div class="mainContent-list">
+                  <p>种植作物：<span class="plant"></span></p>
+                  <p>种植品种：<span class="type"></span></p>
+                  <p>种植面积：<span class="area"></span></p>
+              </div>
+        </div>
+
+    </section>
+    <section class="contentList">
+        <!-- <div class="contentList-main">
+            <div class="contentList-main-title">
+                <span>2018.02.04</span>
+            </div>
+            <ul class="contentList-main-body">
+                <li>
+                    <span class="point"></span>
+                    <span class="numName">施肥</span>
+                    <p class="numText">
+                        <span>2月5日</span>
+                        <span>施用氮肥</span>
+                    </p>
+                </li>
+                <li>
+                    <span class="point"></span>
+                    <span class="numName">用药</span>
+                    <p class="numText">寿光县村蔬菜大棚种植村</p>
+                </li>
+                <li>
+                    <span class="point"></span>
+                    <span class="numName">照片</span>
+                    <p class="numText">
+                      <img src="../../../image/plantDoc/bc_y.png" alt="">
+                    </p>
+                </li>
+            </ul>
+        </div> -->
+    </section>
+
+    <!-- <div id="body_totop_btn">
+        返回顶部
+    </div> -->
+</body>
+<script type="text/javascript" src="../../../script/common/api.js"></script>
+<script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+<script type="text/javascript" src="../../../script/common/html2canvas.js"></script>
+<script type="text/javascript" src="../../../script/common/canvas2image.js"></script>
+<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+<script type="text/javascript" src="../../../script/common/emptyFrm.js"></script>
+<script type="text/javascript">
+    var cropId = null;
+    var imageBrowser = null;//图片预览模块
+    var wx = null;
+    apiready = function(){
+        api.parseTapmode();
+        imageBrowser = api.require('imageBrowser');
+        cropId = api.pageParam.cropId;
+        getDocData(cropId);
+        //头部数据回显
+        var topData = api.pageParam.topData;
+        topDataInit(topData);
+
+        //引入微信模块
+        wx = api.require('wx');
+    };
+
+    //头部数据回显
+    function topDataInit(topData){
+        $(".mainTitle p").text(api.pageParam.base.custName);
+        $.each(topData, function(key, value){
+            if (key == "area") {
+                value = value + "亩";
+            };
+            if (key == "grow") {
+                value = value + "天";
+            };
+            $(".mainContent-list span."+key).text(value);
+        })
+    }
+
+    //图片预览
+		var preview = function (dom) {
+  			var imgUrl = ($(dom).attr('src').split("?"))[0];
+  			// alert(JSON.stringify(imgUrl))
+  			imageBrowser.openImages({
+  					imageUrls: [
+  							imgUrl
+  					]
+  			});
+		};
+
+    //获取档案数据
+    var map = {}, dest = [];
+    function getDocData(cropId){
+        if (cropId != null) {
+            pds.ajaxUpload({
+                url: "/pandect/list",
+                type: "get",
+                data: {
+                    cropId : cropId
+                },
+                success: function(e){
+                    var listData = e.data;//alert(JSON.stringify(listData))
+
+                    if (listData != [] && listData!= "" && listData != null && listData != undefined) {
+                        // $(".more").show();
+                        // $(".contentEmpty").hide();
+                        // $('.more span').text('上拉加载更多...');
+                        // $('.pull_icon').removeClass('loading');
+                        //数组按日期分类处理
+                        for(var i = 0; i < listData.length; i++){
+                            var ai = listData[i];
+                            if(!map[ai.date]){
+                                dest.push({
+                                    date: ai.date,//按年分类
+                                    data: [ai]
+                                });
+                                map[ai.date] = ai;
+                            }else{
+                                for(var j = 0; j < dest.length; j++){
+                                    var dj = dest[j];
+                                    if(dj.date == ai.date){
+                                        dj.data.push(ai);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        console.log("哈哈哈哈哈哈哈************"+JSON.stringify(dest));
+                        setTimeout(function(){
+                            var listBoxStr = "";
+                            $.each(dest, function(l, item){
+                                if (item.data.length > 0) {
+                                    var listDataArr = item.data;
+                                    var listStr = (function(){
+                                        var listStr_ = "";
+                                        for (var k = 0; k < listDataArr.length; k++) {
+                                            var content = listDataArr[k].content;//alert(JSON.stringify(listDataArr[k]))
+                                            var url = listDataArr[k].url;
+                                            if (url != "") {//图片
+                                                listStr_ += '<li>'+
+                                                                '<span class="point"></span>'+
+                                                                '<span class="numName">'+ listDataArr[k].type +'</span>'+
+                                                                '<p class="numText"><img onclick="preview(this)" src="'+ url +'"/></p>'+
+                                                            '</li>';
+                                            }else if(url == ""){//文字
+                                                listStr_ += '<li>'+
+                                                                '<span class="point"></span>'+
+                                                                '<span class="numName">'+ listDataArr[k].type +'</span>'+
+                                                                '<p class="numText">'+ content +'</p>'+
+                                                            '</li>';
+                                            };
+                                        };
+
+                                        return listStr_
+                                    })();
+                                    if (listStr != "") {
+                                        listBoxStr += '<div class="contentList-main">'+
+                                                          '<div class="contentList-main-title">'+
+                                                              '<span>'+item.date +'</span>'+
+                                                          '</div>'+
+                                                          '<ul class="contentList-main-body">'+
+                                                              listStr+
+                                                          '</ul>'+
+                                                      '</div>';
+                                    };
+                                    setTimeout(function(){
+
+                                    },0)
+                                }
+                            });
+
+                            //判断字符串是否为空
+                            if (listBoxStr == "") {
+                                return;
+                            };
+
+                            //拼入页面//显示点击
+                            $(".contentList").html(listBoxStr);
+
+                        },0)
+                    };
+
+                }
+            })
+        }
+    }
+
+    function openPlantDocAll(){
+        api.openWin({
+            name: 'userInfoChange_win',
+            url: './userInfoChange_win.html',
+            // pageParam: {
+            //     name: 'test'
+            // }
+        });
+    }
+
+
+    //分享
+    function createPng(){
+       //分享盒子
+       var MNActionButton = api.require('MNActionButton');
+       MNActionButton.open({
+           layout: {
+               row: 1,
+               col: 4,
+               rowSpacing: 5,                     //（可选项）数字类型；行与行之间的距离；默认：10
+               colSpacing: 10,
+               offset: 0
+           },
+           animation: true,
+           autoHide: true,
+           styles: {
+               maskBg: 'rgba(0,0,0,0.2)',
+               bg: '#fff',
+               cancelButton: {
+                   size: 0,
+                   bg: '#fff',
+                   icon: 'widget://image/index/che.png'
+               },
+               item: {
+                   titleColor: '#666',
+                   titleHighlight: 'dd2727',
+                   titleSize: 12
+               },
+               indicator: {
+                   color: '#f00',
+                   highlight: '#9e9e9e'
+               }
+           },
+           items: [{
+               icon: 'widget://image/plantDoc/wx.png',
+               highlight: 'widget://image/plantDoc/wx.png',
+               title: '微信'
+           }, {
+               icon: 'widget://image/plantDoc/pyq.png',
+               highlight: 'widget://image/plantDoc/pyq.png',
+               title: '朋友圈'
+           },
+           {
+               icon: 'widget://image/plantDoc/qq.png',
+               highlight: 'widget://image/plantDoc/qq.png',
+               title: 'QQ'
+           }, {
+               icon: 'widget://image/plantDoc/wb.png',
+               highlight: 'widget://image/plantDoc/wb.png',
+               title: '微博'
+           }
+         ]
+       }, function(ret) {
+           if (ret) {
+               //alert(JSON.stringify(ret));
+               if (ret.eventType == "click") {
+                   var index = ret.index;
+                   switch (index) {
+                     case 0:
+                       //微信
+                       shareWxFriend('session');
+                       break;
+                     case 1:
+                       //朋友圈
+                       shareWxFriend('timeline');
+                       break;
+                     case 2:
+                       //QQ
+                       api.toast({
+                           msg: '暂不支持该分享，换个试试！',
+                           duration: 2000,
+                           location: 'middle'
+                       });
+                       break;
+                     case 3:
+                       //微博
+                       api.toast({
+                           msg: '暂不支持该分享，换个试试！',
+                           duration: 2000,
+                           location: 'middle'
+                       });
+                       break;
+
+                     default:
+
+                   }
+
+               }
+           }
+       });
+
+
+    }
+
+    //分享好友、朋友圈
+    function shareWxFriend(scene){
+
+          //生成图片
+          api.showProgress({
+            title: '努力加载中...',
+            text: '先喝杯茶...',
+            modal: true
+          });
+          html2canvas(document.querySelector('body'),{
+             useCORS:true,
+             logging:true,
+          }).then(function(canvas) {
+
+             var image = canvas.toDataURL("image/png");
+             pds.ajaxUpload({
+                 url: "/photo/upload/base64",
+                 type:"post",
+                 //fileData: {file: image},
+                 data: {
+                   base64: image,
+                   type: 'png'
+                 },
+                 success: function ( e ) {
+                     if (e.code != 0) {
+                         api.toast({
+                             msg: '分享失败，请稍后重试！',
+                             duration: 2000,
+                             location: 'middle'
+                         });
+                         return;
+                     };
+                     var urlData = e.data;
+                     //调用分享界面
+                     wx.isInstalled(function(ret, err) {
+                         if (ret.installed) {
+                             //alert("当前设备已安装微信客户端");
+                            //  wx.auth({
+                            //       apiKey: 'wxebb8f7f8f4c5518c'
+                            //   }, function(ret, err) {
+                            //       if (ret.status) {
+                            //           alert(JSON.stringify(ret));
+                            //       } else {
+                            //           alert(err.code);
+                            //       }
+                            //   });
+                             wx.shareImage({
+                                 apiKey: 'wxebb8f7f8f4c5518c',
+                                 scene: scene,
+                                 contentUrl: urlData
+                             }, function(ret, err) {
+                                 if (ret.status) {
+                                   alert('分享成功');
+                                 } else {
+                                   alert(err.code);
+                                 }
+                             });
+
+                         } else {
+                             alert('当前设备未安装微信客户端');
+                         }
+                     });
+
+                 }
+                 // error: function ( e ) {
+                 //     api.alert( {
+                 //       msg: "服务器异常，请联系管理员!!!"
+                 //     });
+                 // }
+             });
+
+         });
+
+    }
+
+
+</script>
+</html>

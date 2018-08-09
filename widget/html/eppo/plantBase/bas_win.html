@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>基地信息</title>
+    <link rel="stylesheet" href="../../../css/common/public.css" />
+    <link rel="stylesheet" href="../../../css/common/header.css" />
+   	<script type="text/javascript" src="../../../script/common/rem.js"></script>
+    <script type="text/javascript" src="../../../script/common/api.js"></script>
+	  <script type="text/javascript" src="../../../script/common/jquery.min.js"></script>
+		<script type="text/javascript" src="../../../script/common/pds.ajax.js"></script>
+	<style>
+	 #footer{
+	 		position: absolute;
+	 		left: 0;
+	 		bottom: 0;
+	 		z-index: 99;
+	 		width:100%;
+	 		height: 0.76rem;
+	 		line-height: 0.76rem;
+	 		font-size: 0.3rem;
+	 		color: #fff;
+	 		text-align: center;
+	 		background: #ef8132;
+	 }
+</style>
+</head>
+<body>
+	<header id="aui-header">
+		<a class="left" tapmode onclick="closeWin()">
+			<span></span>
+		</a>
+		<div class="title">基地信息</div>
+	</header>
+		<div id="footer" onclick="basSave()">
+						保存
+		</div>
+
+</body>
+
+<script type="text/javascript">
+
+    apiready = function(){
+
+        api.parseTapmode();
+        var header = $api.byId('aui-header');
+        $api.fixStatusBar(header);
+        var headerPos = $api.offset(header);
+				var footer = $api.byId('footer');
+        var footerH = $api.offset(footer).h;
+        var body_h = $api.offset($api.dom('body')).h;
+        api.openFrame({
+            name: 'bas_frm.html',
+            url: 'bas_frm.html',
+						bounces: true,
+            reload: true,
+						pageParam:api.pageParam,
+            rect: {
+                x: 0,
+                y: headerPos.h,
+                w: 'auto',
+                h: api.winHeight-headerPos.h-footerH
+            }
+        })
+				api.addEventListener({
+				    name: 'keyback'
+				}, function(ret, err) {
+					api.sendEvent({
+						name: 'backToFarmList',
+				});
+				});
+    };
+    function closeWin(){
+			api.sendEvent({
+				name: 'backToFarmList',
+		});
+    }
+function basSave(){
+
+		//登录埋点
+		var buriedPoint = pds.buriedPoint();
+		buriedPoint.pageId = 'page_base_information_service';
+		buriedPoint.eventId = 'button_add_base_information_page_base_information_service';
+		pds.ajaxSubmit({
+				url:"app/buried_point/save",
+				progress: false,
+				data:{"point":buriedPoint},
+				success:function(v){
+						//alert(JSON.stringify(v))
+				}
+		});
+
+	api.sendEvent({
+		name: 'savePlanBase',
+});
+}
+</script>
+</html>
